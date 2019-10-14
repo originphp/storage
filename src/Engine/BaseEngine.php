@@ -11,7 +11,7 @@
  * @link         https://www.originphp.com
  * @license      https://opensource.org/licenses/mit-license.php MIT License
  */
-
+declare(strict_types = 1);
 namespace Origin\Storage\Engine;
 
 use Origin\Configurable\InstanceConfigurable as Configurable;
