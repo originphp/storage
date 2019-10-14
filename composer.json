@@ -1,0 +1,40 @@
+{
+    "name": "originphp/storage",
+    "description": "OriginPHP Storage",
+    "type": "library",
+    "keywords": [
+        "originphp",
+        "storage",
+        "sftp",
+        "ftp",
+        "local",
+        "disk"
+    ],
+    "homepage": "https://www.originphp.com",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jamiel Sharief",
+            "email": "js@originphp.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Origin\\Storage\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Origin\\Test\\Storage\\": "tests/"
+        }
+    },
+    "require": {
+        "php": "^7.2.0",
+        "originphp/configurable": "^1.0",
+        "originphp/defer": "^1.0",
+        "phpseclib/phpseclib": "^2.0" 
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.0"
+    }
+}

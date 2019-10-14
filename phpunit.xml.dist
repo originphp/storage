@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+    colors="true"
+    processIsolation="false"
+    stopOnFailure="false"
+    bootstrap="vendor/autoload.php"
+    backupGlobals="true"
+    >
+    <testsuites>
+        <testsuite name="OriginPHP Storage">
+            <directory>./tests/</directory>
+        </testsuite>
+    </testsuites>
+    <filter>
+        <whitelist>
+            <directory suffix=".php">./src/</directory>
+        </whitelist>
+    </filter>
+    <php>
+       <const name="PHPUNIT" value="true"/>
+       <env name="ORIGIN_ENV" value="test"/>
+
+        <env name="SFTP_HOST" value="localhost"/>
+        <env name="SFTP_USERNAME" value="username"/>
+        <env name="SFTP_PASSWORD" value="password"/>
+        
+        <env name="FTP_HOST" value="localhost"/>
+        <env name="FTP_USERNAME" value="admin"/>
+        <env name="FTP_PASSWORD" value="secret"/>
+    </php>
+</phpunit>
+<!--
+docker run -d \
+            -p 21:21 \
+            -p 21000-21010:21000-21010 \
+            -e USERS="admin|secret" \
+            delfer/alpine-ftp-server
+--> 
