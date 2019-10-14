@@ -81,7 +81,7 @@ class FtpEngineTest extends EngineTestCase
      *
      * @return void
      */
-    public function xxxtestErrorConnectingTo()
+    public function testErrorConnectingTo()
     {
         $this->expectException(Exception::class);
         $engine = new FtpEngine([
@@ -98,7 +98,7 @@ class FtpEngineTest extends EngineTestCase
         $engine = new FtpEngine([
             'host' => $this->env('FTP_HOST'),
             'username' => 'admin',
-            'password' => 1234,
+            'password' => '1234',
         ]);
     }
 }

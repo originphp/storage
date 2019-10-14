@@ -268,7 +268,7 @@ class FtpEngine extends BaseEngine
         $location = $this->addPathPrefix($directory);
         $files = [];
 
-        $contents = ftp_rawlist($this->connection, $directory, true);
+        $contents = ftp_rawlist($this->connection, $directory ?: '/', true);
 
         if ($contents) {
             foreach ($contents as $item) {
