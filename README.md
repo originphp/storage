@@ -4,7 +4,7 @@
 [![build](https://travis-ci.org/originphp/storage.svg?branch=master)](https://travis-ci.org/originphp/storage)
 [![coverage](https://coveralls.io/repos/github/originphp/storage/badge.svg?branch=master)](https://coveralls.io/github/originphp/storage?branch=master)
 
-The Storage library provides an easy way to access different types of storages from local disk,FTP, SFTP and Amazon S3 (coming soon). Its a unified approach for working with different storages.
+The Storage library provides an easy way to access different types of storages from local disk, FTP and SFTP. Its a unified approach for working with different storages.
 
 ## Installation
 
