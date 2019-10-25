@@ -154,7 +154,14 @@ options for configuring FTP include:
 
 ### SFTP
 
-To configure SFTP
+
+To use the SFTP engine, you need to install `phpseclib`
+
+```linux
+$ composer require phpseclib/phpseclib:~2.0
+```
+
+Then configure as follows:
 
 ```php
 Storage::config('default', [
