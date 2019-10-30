@@ -16,14 +16,13 @@ namespace Origin\Test\Storage\Engine;
 
 use phpseclib\Net\SFTP;
 
-
 use phpseclib\Crypt\RSA;
 
-use Origin\Storage\Exception\StorageException;
+use InvalidArgumentException;
 
 use Origin\Storage\Engine\SftpEngine;
 
-use InvalidArgumentException;
+use Origin\Storage\Exception\StorageException;
 use Origin\Storage\Exception\FileNotFoundException;
 
 class MockSftpEngine extends SftpEngine

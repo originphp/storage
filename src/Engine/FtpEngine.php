@@ -15,8 +15,9 @@ declare(strict_types = 1);
 namespace Origin\Storage\Engine;
 
 use Exception;
-use Origin\Storage\Exception\FileNotFoundException;
 use InvalidArgumentException;
+use Origin\Storage\FileObject;
+use Origin\Storage\Exception\FileNotFoundException;
 
 class FtpEngine extends BaseEngine
 {
@@ -286,11 +287,12 @@ class FtpEngine extends BaseEngine
                         $files[] = $item;
                     }
                 } else {
-                    $files[] = [
-                        'name' => ltrim(str_replace($base . DIRECTORY_SEPARATOR, '', $location . DIRECTORY_SEPARATOR .  $file), '/'),
-                        'timestamp' => ftp_mdtm($this->connection, $location . DIRECTORY_SEPARATOR . $file),
+                    $files[] = new FileObject([
+                        'name' => $file,
+                        'path' => ltrim(str_replace($this->config['root'] . '/', '', $location), '/\\'),
+                        'timestamp' => ftp_mdtm($this->connection, $location . '/' . $file),
                         'size' => $result[4],
-                    ];
+                    ]);
                 }
             }
         }

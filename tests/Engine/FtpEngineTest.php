@@ -15,8 +15,8 @@
 namespace Origin\Test\Storage\Engine;
 
 use Exception;
-use Origin\Storage\Engine\FtpEngine;
 use InvalidArgumentException;
+use Origin\Storage\Engine\FtpEngine;
 
 class FtpEngineTest extends EngineTestCase
 {

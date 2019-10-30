@@ -15,9 +15,9 @@
 declare(strict_types = 1);
 namespace Origin\Storage;
 
-use Origin\Configurable\StaticConfigurable as Configurable;
-use Origin\Storage\Engine\BaseEngine;
 use InvalidArgumentException;
+use Origin\Storage\Engine\BaseEngine;
+use Origin\Configurable\StaticConfigurable as Configurable;
 
 class Storage
 {

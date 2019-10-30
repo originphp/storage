@@ -14,6 +14,7 @@
 
 namespace Origin\Test\Storage\Engine;
 
+use Origin\Storage\FileObject;
 use Origin\Storage\Exception\FileNotFoundException;
 
 class EngineTestCase extends \PHPUnit\Framework\TestCase
@@ -59,27 +60,32 @@ class EngineTestCase extends \PHPUnit\Framework\TestCase
     public function testList()
     {
         $files = $this->engine()->list();
-
+  
         $this->assertTrue($this->engine()->exists('foo.txt'));
         // Test Format
         $foo = $this->getFile('foo.txt', $files);
-        $expected = [
+       
+        $expected = new FileObject([
             'name' => 'foo.txt',
+            'path' => '',
             'timestamp' => 1559996145,
             'size' => 32,
-        ];
+        ]);
+  
         $this->assertEquals($expected, $foo);
+       
         // Test Contents
-        $this->assertHasFileInList('foo.txt', $files);
-        $this->assertHasFileInList('folder/bar.txt', $files);
-        $this->assertHasFileInList('folder/subfolder/foobar.txt', $files);
+        $this->assertHasFileInList('foo.txt', '', $files);
+        $this->assertHasFileInList('bar.txt', 'folder', $files);
+        $this->assertHasFileInList('foobar.txt', 'folder/subfolder', $files);
 
         $files = $this->engine()->list('folder');
-        $this->assertHasFileInList('bar.txt', $files);
-        $this->assertHasFileInList('subfolder/foobar.txt', $files);
+       
+        $this->assertHasFileInList('bar.txt', 'folder', $files);
+        $this->assertHasFileInList('foobar.txt', 'folder/subfolder', $files);
 
         $files = $this->engine()->list('folder/subfolder');
-        $this->assertHasFileInList('foobar.txt', $files);
+        $this->assertHasFileInList('foobar.txt', 'folder/subfolder', $files);
 
         $this->expectException(FileNotFoundException::class);
         $this->engine()->list('a-folder-that-does-not-exist');
@@ -125,15 +131,17 @@ class EngineTestCase extends \PHPUnit\Framework\TestCase
         $this->assertFalse($this->engine()->exists('docs/dota2/natures_profit.txt'));
     }
 
-    protected function assertHasFileInList(string $filename, array $files)
+    protected function assertHasFileInList(string $filename, string $path, array $files)
     {
         foreach ($files as $file) {
-            if ($file['name'] == $filename) {
-                return true;
+            if ($file['name'] === $filename and $file['path'] === $path) {
+                $this->assertTrue(true);
+
+                return;
             }
         }
 
-        return false;
+        $this->assertFalse(true);
     }
 
     protected function getFile(string $filename, array $files)
@@ -150,7 +158,6 @@ class EngineTestCase extends \PHPUnit\Framework\TestCase
 
         return null;
     }
-
 
     /**
     * Work with ENV vars

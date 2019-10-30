@@ -17,8 +17,9 @@ namespace Origin\Storage\Engine;
 use phpseclib\Net\SFTP;
 use phpseclib\Crypt\RSA;
 
-use Origin\Storage\Exception\StorageException;
 use InvalidArgumentException;
+use Origin\Storage\FileObject;
+use Origin\Storage\Exception\StorageException;
 use Origin\Storage\Exception\FileNotFoundException;
 
 /**
@@ -233,11 +234,12 @@ class SftpEngine extends BaseEngine
                 }
                
                 if ($info['type'] === 1) {
-                    $files[] = [
-                        'name' => str_replace($base . DIRECTORY_SEPARATOR, '', $location . DIRECTORY_SEPARATOR .  $file),
+                    $files[] = new FileObject([
+                        'name' => $file,
+                        'path' => ltrim(str_replace($this->config['root'], '', $location), '/\\'),
                         'timestamp' => $info['mtime'],
                         'size' => $info['size'],
-                    ];
+                    ]);
                 } elseif ($info['type'] === 2) {
                     $subDirectory = $file;
                     if ($directory) {

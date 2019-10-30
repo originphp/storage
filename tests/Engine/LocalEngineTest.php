@@ -13,8 +13,8 @@
  */
 namespace Origin\Test\Storage\Engine;
 
-use Origin\Storage\Engine\LocalEngine;
 use InvalidArgumentException;
+use Origin\Storage\Engine\LocalEngine;
 
 define('STORAGE_TMP', sys_get_temp_dir() . '/' . uniqid());
 mkdir(STORAGE_TMP);
@@ -28,7 +28,7 @@ class LocalEngineTest extends EngineTestCase
         if ($this->engine === null) {
             $this->engine = new LocalEngine([
                 'root' => STORAGE_TMP
-                ]);
+            ]);
         }
 
         return $this->engine;

@@ -14,9 +14,10 @@
 declare(strict_types = 1);
 namespace Origin\Storage\Engine;
 
+use InvalidArgumentException;
+use Origin\Storage\FileObject;
 use RecursiveIteratorIterator;
 use RecursiveDirectoryIterator;
-use InvalidArgumentException;
 use Origin\Storage\Exception\FileNotFoundException;
 
 class LocalEngine extends BaseEngine
@@ -26,7 +27,7 @@ class LocalEngine extends BaseEngine
     public function initialize(array $config) : void
     {
         $root = $this->config('root');
-        if (!$root or (! file_exists($root) and ! is_dir($root))) {
+        if (! $root or (! file_exists($root) and ! is_dir($root))) {
             throw new InvalidArgumentException(sprintf('Invalid root `%s`.', $root));
         }
     }
@@ -121,11 +122,14 @@ class LocalEngine extends BaseEngine
                 if ($file->isDir()) {
                     continue;
                 }
-                $files[] = [
-                    'name' => str_replace($directory . DIRECTORY_SEPARATOR, '', $file->getPathname()),
+   
+                $path = str_replace($this->config['root'], '', $file->getPath()) ;
+                $files[] = new FileObject([
+                    'name' => $file->getFilename(),
+                    'path' => ltrim($path, DIRECTORY_SEPARATOR),
                     'timestamp' => $file->getMTime(),
                     'size' => $file->getSize(),
-                ];
+                ]);
             }
 
             return $files;
