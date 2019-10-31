@@ -235,8 +235,7 @@ class SftpEngine extends BaseEngine
                
                 if ($info['type'] === 1) {
                     $files[] = new FileObject([
-                        'name' => $file,
-                        'path' => ltrim(str_replace($this->config['root'], '', $location), '/\\'),
+                        'name' => str_replace($base . '/', '', $location . '/' .  $file),
                         'timestamp' => $info['mtime'],
                         'size' => $info['size'],
                     ]);
