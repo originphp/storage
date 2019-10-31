@@ -119,16 +119,27 @@ class LocalEngine extends BaseEngine
 
             $files = [];
             foreach ($rii as $file) {
+                $path = str_replace($this->config['root'], '', $file->getPath()) ;
+                $name = $file->getFilename();
+                $path = ltrim($path, DIRECTORY_SEPARATOR);
+
+
                 if ($file->isDir()) {
                     continue;
+                    /*
+                    $name = basename($file->getPath());
+                    $path = dirname($path);
+                    if ($path === '.') {
+                        $path = '';
+                    }*/
                 }
-   
-                $path = str_replace($this->config['root'], '', $file->getPath()) ;
+                
                 $files[] = new FileObject([
-                    'name' => $file->getFilename(),
-                    'path' => ltrim($path, DIRECTORY_SEPARATOR),
+                    'name' => $name,
+                    'path' => $path,
                     'timestamp' => $file->getMTime(),
                     'size' => $file->getSize(),
+                   // 'type' => $file->isDir() ? 'directory' : 'file'
                 ]);
             }
 
