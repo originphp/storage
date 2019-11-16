@@ -6,6 +6,7 @@ php:
 dist: xenial
 before_script:
   - composer install --prefer-source --no-interaction
+  - composer require phpseclib/phpseclib
 script:
   - vendor/bin/phpunit --coverage-clover=clover.xml
 after_script:
