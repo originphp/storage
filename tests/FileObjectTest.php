@@ -29,7 +29,18 @@ class FileObjectTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('foo.txt', $object->name);
         $this->assertEquals('folder/subfolder', $object->path);
 
+        $this->assertTrue(isset($object['name']));
+        $this->assertTrue(isset($object->name));
+
         $this->assertNull($object['abc']);
         $this->assertNull($object->abc);
+
+        unset($object['name']);
+        $object->name = 'bar.txt';
+        $this->assertEquals('bar.txt', $object->name);
+
+        unset($object['name']);
+        $object['name'] = 'bar.txt';
+        $this->assertEquals('bar.txt', $object->name);
     }
 }
