@@ -46,5 +46,8 @@ class FileObjectTest extends \PHPUnit\Framework\TestCase
         // test offsetset
         $object[] = 'foo';
         $this->assertEquals('foo', $object[0]);
+
+        // Need to call this to ensure no errors but cant test it.
+        unset($object->furion);
     }
 }
