@@ -4,7 +4,7 @@
 [![build](https://travis-ci.org/originphp/storage.svg?branch=master)](https://travis-ci.org/originphp/storage)
 [![coverage](https://coveralls.io/repos/github/originphp/storage/badge.svg?branch=master)](https://coveralls.io/github/originphp/storage?branch=master)
 
-The Storage library provides an easy way to access different types of storages from local disk, FTP and SFTP. Its a unified approach for working with different storages.
+The Storage library provides an easy way to access different types of storages from local disk, ZIP archives, FTP and SFTP. Its a unified approach for working with different storages.
 
 ## Installation
 
@@ -200,3 +200,15 @@ options for configuring SFTP include:
 - timeout: default 10 seconds
 - root: the root folder of the storage. e.g. /home/user/sub_folder
 - privateKey: either the private key for the account or the filename where the private key can be loaded from
+
+
+## Zip
+
+To use the ZIP storage engine, provide the filename with a full path.
+
+```php
+Storage::config('default', [
+    'engine' => 'Zip',
+    'file' => '/var/www/backup.zip'
+ ]);
+```

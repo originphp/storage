@@ -55,7 +55,7 @@ class ZipEngine extends BaseEngine
         if ($contents) {
             return $contents;
         }
-        throw new FileNotFoundException(sprintf('File %s does not exist', $name));
+        throw new FileNotFoundException(sprintf('%s does not exist', $name));
     }
 
     /**
@@ -84,13 +84,15 @@ class ZipEngine extends BaseEngine
     public function delete(string $name) : bool
     {
         if ($name and ! $this->exists($name)) {
-            throw new FileNotFoundException(sprintf('directory `%s` does not exist', $name));
+            throw new FileNotFoundException(sprintf('%s does not exist', $name));
         }
         
+        // if its a file then delete it
         if ($this->archive->statName($name) !== false) {
             return $this->archive->deleteName($name);
         }
 
+        // if the directory does not exist then get out
         if ($this->archive->statName($name .'/') === false) {
             return false;
         }
@@ -99,14 +101,15 @@ class ZipEngine extends BaseEngine
 
         for ($i = 0;$i < $this->archive->numFiles;$i++) {
             $file = $this->archive->statIndex($i);
-            if ($file) {
-                if (substr($file['name'], -1) === '/') {
-                    continue;
-                }
-    
-                if ($file and substr($file['name'], 0, $length) === $name) {
-                    $this->archive->deleteIndex($i);
-                }
+            if (! $file) {
+                continue;
+            }
+            if (substr($file['name'], -1) === '/') {
+                continue;
+            }
+
+            if (substr($file['name'], 0, $length) === $name) {
+                $this->archive->deleteIndex($i);
             }
         }
 
@@ -133,7 +136,7 @@ class ZipEngine extends BaseEngine
     public function list(string $name = null) : array
     {
         if ($name and ! $this->exists($name)) {
-            throw new FileNotFoundException(sprintf('directory `%s` does not exist', $name));
+            throw new FileNotFoundException(sprintf('%s does not exist', $name));
         }
 
         $length = $name ? strlen($name) : false;
@@ -141,6 +144,9 @@ class ZipEngine extends BaseEngine
 
         for ($i = 0;$i < $this->archive->numFiles;$i++) {
             $file = $this->archive->statIndex($i);
+            if (! $file) {
+                continue;
+            }
             // skip folders
             if (substr($file['name'], -1) === '/') {
                 continue;

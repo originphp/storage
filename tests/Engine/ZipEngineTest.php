@@ -90,7 +90,6 @@ class ZipEngineTest extends \PHPUnit\Framework\TestCase
 
         // test recursive delete
         $this->assertTrue($engine->delete('folder'));
-       
         $this->assertFalse($engine->exists('folder/subfolder/foobar.txt'));
     }
 

@@ -87,7 +87,7 @@ class MemoryEngine extends BaseEngine
     public function delete(string $name) : bool
     {
         if ($name and ! $this->exists($name)) {
-            throw new FileNotFoundException(sprintf('`%s` does not exist', $name));
+            throw new FileNotFoundException(sprintf('%s does not exist', $name));
         }
 
         // Delete file
@@ -135,7 +135,7 @@ class MemoryEngine extends BaseEngine
     public function list(string $name = null) : array
     {
         if ($name and ! $this->exists($name)) {
-            throw new FileNotFoundException(sprintf('directory `%s` does not exist', $name));
+            throw new FileNotFoundException(sprintf('%s does not exist', $name));
         }
 
         $data = $this->data;
