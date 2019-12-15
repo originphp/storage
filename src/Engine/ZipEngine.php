@@ -91,12 +91,7 @@ class ZipEngine extends BaseEngine
         if ($this->archive->statName($name) !== false) {
             return $this->archive->deleteName($name);
         }
-
-        // if the directory does not exist then get out
-        if ($this->archive->statName($name .'/') === false) {
-            return false;
-        }
-
+        
         $length = $name ? strlen($name) : false;
 
         for ($i = 0;$i < $this->archive->numFiles;$i++) {
