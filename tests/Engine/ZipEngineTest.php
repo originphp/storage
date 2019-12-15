@@ -15,6 +15,7 @@ namespace Origin\Test\Storage\Engine;
 
 use Origin\Storage\Engine\ZipEngine;
 use Origin\Storage\Exception\FileNotFoundException;
+use Origin\Storage\Exception\StorageException;
 
 class ZipEngineTest extends \PHPUnit\Framework\TestCase
 {
@@ -109,5 +110,19 @@ class ZipEngineTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(FileNotFoundException::class);
         (new ZipEngine(['file' => sys_get_temp_dir().'/foo.zip']))->list('foo');
+    }
+
+    public function testConfigException()
+    {
+        $this->expectException(StorageException::class);
+        new ZipEngine(['foo'=>'bar']);
+    }
+
+    public function testConfigExceptionInvalidFile()
+    {
+        $this->expectException(StorageException::class);
+        $path = sys_get_temp_dir() . '/' . uniqid();
+        mkdir($path, 0000);
+        new ZipEngine(['file'=>$path . '/foo.zip']);
     }
 }

@@ -37,7 +37,6 @@ class ZipEngine extends BaseEngine
         }
        
         $result = file_exists($file) ?  $this->archive->open($file) : $this->archive->open($file, ZipArchive::CREATE);
-
         if ($result !== true) {
             throw new StorageException('Error opening ' . $file  . ' error: ' . $result);
         }
