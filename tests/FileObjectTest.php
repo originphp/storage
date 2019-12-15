@@ -39,8 +39,12 @@ class FileObjectTest extends \PHPUnit\Framework\TestCase
         $object->name = 'bar.txt';
         $this->assertEquals('bar.txt', $object->name);
 
-        unset($object['name']);
+        unset($object->name);
         $object['name'] = 'bar.txt';
         $this->assertEquals('bar.txt', $object->name);
+
+        // test offsetset
+        $object[] = 'foo';
+        $this->assertEquals('foo', $object[0]);
     }
 }
