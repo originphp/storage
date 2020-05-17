@@ -11,6 +11,7 @@ before_install:
 before_script:
   - composer install --prefer-source --no-interaction
   - composer require phpseclib/phpseclib
+  - composer require aws/aws-sdk-php
 script:
   - vendor/bin/phpunit --coverage-clover=clover.xml
 after_script:
