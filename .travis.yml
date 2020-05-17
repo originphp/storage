@@ -4,6 +4,10 @@ php:
   - 7.3
   - 7.4
 dist: xenial
+services:
+  - docker
+before_install:
+  - docker run -p 9000:9000 minio/minio server /data
 before_script:
   - composer install --prefer-source --no-interaction
   - composer require phpseclib/phpseclib
@@ -15,5 +19,3 @@ after_script:
 cache:
   directories:
     - $HOME/.composer/cache/files
-after_success:
-  - bash <(curl -s https://codecov.io/bash)
