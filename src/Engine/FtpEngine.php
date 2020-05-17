@@ -291,7 +291,7 @@ class FtpEngine extends BaseEngine
                     }
                 } else {
                     $files[] = new FileObject([
-                        'name' => ltrim(str_replace($base . '/', '', $location . '/' .  $file), '/'),
+                        'name' => trim($this->rebase($location . '/' .  $file, $base . '/'), '/'),
                         'timestamp' => ftp_mdtm($this->connection, $location . '/' . $file),
                         'size' => $result[4],
                     ]);

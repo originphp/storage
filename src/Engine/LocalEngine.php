@@ -125,9 +125,9 @@ class LocalEngine extends BaseEngine
                 if ($file->isDir()) {
                     continue;
                 }
-
+      
                 $files[] = new FileObject([
-                    'name' => str_replace($directory . DIRECTORY_SEPARATOR, '', $file->getPathname()),
+                    'name' => $this->rebase($file->getPathname(), $directory . '/'),
                     'timestamp' => $file->getMTime(),
                     'size' => $file->getSize(),
                 ]);

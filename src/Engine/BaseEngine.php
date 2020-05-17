@@ -76,4 +76,20 @@ abstract class BaseEngine
      * @return array
      */
     abstract public function list(string $name = null) : array;
+
+    /**
+     * Rebases a file depending where it is in the tree
+     *
+     * @param string $file
+     * @param string $base
+     * @return string
+     */
+    protected function rebase(string $file, string $base = null) : string
+    {
+        if (! empty(trim($base, '/'))) {
+            $file = substr($file, strlen($base));
+        }
+
+        return $file;
+    }
 }
