@@ -43,7 +43,7 @@ class S3EngineTest extends EngineTestCase
 
         return $this->engine;
     }
-    
+
     public function testcreateBuckets()
     {
         $this->assertTrue($this->engine()->createBucket($this->bucket));
@@ -51,14 +51,11 @@ class S3EngineTest extends EngineTestCase
 
     public function testListBuckets()
     {
-        $buckets =  $this->engine()->listBuckets();
+        $buckets = $this->engine()->listBuckets();
         $this->assertNotEmpty($buckets);
     }
 
-    public function testDeleteBucket()
-    {
-        $this->assertTrue($this->engine()->deleteBucket($this->bucket));
-    }
+    
 
     public function testNoCredentials()
     {
@@ -129,5 +126,10 @@ class S3EngineTest extends EngineTestCase
             'endpoint' => null, // for S3 comptabile protocols
             'bucket' => null
         ]);
+    }
+
+    public function testDeleteBucket()
+    {
+        $this->assertTrue($this->engine()->deleteBucket($this->bucket));
     }
 }
