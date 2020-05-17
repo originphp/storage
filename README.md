@@ -22,9 +22,10 @@ In your bootstrap/configuration files add
 
 ```php
 use Origin\Storage\Storage;
+use Origin\Storage\Engine\LocalEngine;
 
 Storage::config('default', [
-    'engine' => 'Local'
+    'className' => LocalEngine::class
     'root' => '/var/www/storage'
 ]);
 ```
@@ -123,8 +124,11 @@ $data = Storage::read('transactions.csv',[
 The local storage simply works with data from the drive.
 
 ```php
+use Origin\Storage\Storage;
+use Origin\Storage\Engine\LocalEngine;
+
 Storage::config('default', [
-    'engine' => 'Local',
+    'className' => LocalEngine::class
     'root' => '/var/www/storage'
  ]);
 ```
@@ -134,7 +138,11 @@ Storage::config('default', [
 Then you need to configure this
 
 ```php
+use Origin\Storage\Storage;
+use Origin\Storage\Engine\FtpEngine;
+
 Storage::config('default', [
+    'className' => FtpEngine::class
     'engine' => 'Ftp',
     'host' => 'example.com',
     'port' => 21,
@@ -157,7 +165,6 @@ options for configuring FTP include:
 
 ### SFTP
 
-
 To use the SFTP engine, you need to install `phpseclib`
 
 ```linux
@@ -167,8 +174,11 @@ $ composer require phpseclib/phpseclib:~2.0
 Then configure as follows:
 
 ```php
+use Origin\Storage\Storage;
+use Origin\Storage\Engine\SftpEngine;
+
 Storage::config('default', [
-    'engine' => 'Sftp',
+    'className' => SftpEngine::class
     'host' => 'example.com',
     'port' => 22,
     'username' => 'james',
@@ -180,8 +190,11 @@ If you use want to use a private key to login, you can either provide the filena
 
 
 ```php
+use Origin\Storage\Storage;
+use Origin\Storage\Engine\SftpEngine;
+
 Storage::config('default', [
-    'engine' => 'Sftp',
+    'className' => SftpEngine::class
     'host' => 'example.com',
     'port' => 22,
     'username' => 'james',
@@ -202,13 +215,53 @@ options for configuring SFTP include:
 - privateKey: either the private key for the account or the filename where the private key can be loaded from
 
 
+## S3
+
+The S3 Engine works with [Amazon S3](https://aws.amazon.com/s3/) and any other object storage server which uses the S3 protocol, for example [minio](https://min.io/).
+
+To use the S3 Engine, you need to install the Amazon AWS SDK
+
+```linux
+$ composer require aws/aws-sdk-php
+```
+
+Then you can configure the S3 engine like this
+
+```php
+use Origin\Storage\Storage;
+use Origin\Storage\Engine\S3Engine;
+
+Storage::config('default', [
+    'className' => S3Engine::class
+    'credentials' => [
+        'key' => env('S3_KEY'), // * required
+        'secret' => env('S3_SECRET'), // * required
+    ],
+    'region' => 'us-east-1', // * required
+    'version' => 'latest',
+    'endpoint' => env('S3_ENDPOINT'), // for S3 comptabile protocols
+    'bucket' => env('S3_BUCKET') // * required
+ ]);
+```
+
+Options for configuring the `S3` engine are:
+
+- credentials: this is required and is an array with both `key` and `secret`
+- region: The label for location of the server
+- version: version setting
+- endpoint: If you are not using Amazon S3. e.g. `http://127.0.0.1:9000`
+- bucket: The name of the bucket, this is required and the bucket should exist.
+
 ## Zip
 
 To use the ZIP storage engine, provide the filename with a full path.
 
 ```php
+use Origin\Storage\Storage;
+use Origin\Storage\Engine\ZipEngine;
+
 Storage::config('default', [
-    'engine' => 'Zip',
+    'className' => ZipEngine::class
     'file' => '/var/www/backup.zip'
- ]);
+]);
 ```
