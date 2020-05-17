@@ -252,6 +252,16 @@ Options for configuring the `S3` engine are:
 - endpoint: If you are not using Amazon S3. e.g. `http://127.0.0.1:9000`
 - bucket: The name of the bucket, this is required and the bucket should exist.
 
+### Minio Server (S3)
+
+To fire up your own minio server locally you can run the docker command
+
+```linux
+$ docker run -p 9000:9000 minio/minio server /data
+```
+
+You can access this also using your web browser at `http://127.0.0.1:9000`.
+
 ## Zip
 
 To use the ZIP storage engine, provide the filename with a full path.
