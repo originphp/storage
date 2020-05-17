@@ -37,30 +37,27 @@ class S3EngineTest extends EngineTestCase
                 'region' => 'us-east-1',
                 'version' => 'latest',
                 'endpoint' => $this->env('S3_ENDPOINT'), // for S3 comptabile protocols
-                'bucket' => $this->bucket
+                'bucket' =>  $this->env('S3_BUCKET')
             ]);
         }
 
         return $this->engine;
     }
-
-
-    public function testCreateBucket()
+    
+    public function testcreateBuckets()
     {
         $this->assertTrue($this->engine()->createBucket($this->bucket));
-        $this->assertTrue($this->engine()->createBucket($this->bucket .'-delete'));
     }
 
     public function testListBuckets()
     {
         $buckets =  $this->engine()->listBuckets();
         $this->assertNotEmpty($buckets);
-        $this->assertTrue(in_array($this->bucket, $buckets));
     }
 
     public function testDeleteBucket()
     {
-        $this->assertTrue($this->engine()->deleteBucket($this->bucket .'-delete'));
+        $this->assertTrue($this->engine()->deleteBucket($this->bucket));
     }
 
     public function testNoCredentials()

@@ -40,6 +40,6 @@
         <env name="S3_ENDPOINT" value="http://127.0.0.1:9000"/>
         <env name="S3_KEY" value="minioadmin"/>
         <env name="S3_SECRET" value="minioadmin"/>
-        <env name="S3_BUCKET" value="data"/>
+        <env name="S3_BUCKET" value="test-bucket"/>
     </php>
 </phpunit>

@@ -74,6 +74,7 @@ class S3Engine extends BaseEngine
 
     /**
      * Returns a list of buckets on the S3 storage
+     * @internal can be slight delay even after creating before you can read
      *
      * @return array
      */
@@ -97,21 +98,19 @@ class S3Engine extends BaseEngine
     public function createBucket(string $name) : bool
     {
         $options = ['Bucket' => $name];
-
+    
         try {
             $this->s3->createBucket($options);
             $this->s3->waitUntil('BucketExists', $options);
-
             return true;
         } catch (AwsException $exception) {
-            throw $exception;
         }
 
         return false;
     }
 
     /**
-     * Creates a bucket
+     * Deletes a bucket
      *
      * @param string $name
      * @return boolean
