@@ -1,7 +1,8 @@
 <?php
+
 /**
  * OriginPHP Framework
- * Copyright 2018 - 2019 Jamiel Sharief.
+ * Copyright 2018 - 2020 Jamiel Sharief.
  *
  * Licensed under The MIT License
  * The above copyright notice and this permission notice shall be included in all copies or substantial
@@ -11,11 +12,12 @@
  * @link        https://www.originphp.com
  * @license     https://opensource.org/licenses/mit-license.php MIT License
  */
+
 namespace Origin\Test\Storage\Engine;
 
 use Origin\Storage\Engine\ZipEngine;
-use Origin\Storage\Exception\FileNotFoundException;
 use Origin\Storage\Exception\StorageException;
+use Origin\Storage\Exception\FileNotFoundException;
 
 class ZipEngineTest extends \PHPUnit\Framework\TestCase
 {
@@ -29,7 +31,7 @@ class ZipEngineTest extends \PHPUnit\Framework\TestCase
     {
         $file = sys_get_temp_dir() . '/' . uniqid();
         $engine = new ZipEngine(['file' => $file]);
-    
+
         $this->assertTrue($engine->write('foo.txt', 'foo'));
         $this->assertTrue($engine->write('folder/bar.txt', 'bar'));
         $this->assertTrue($engine->write('folder/subfolder/foobar.txt', 'foobar'));
@@ -37,13 +39,13 @@ class ZipEngineTest extends \PHPUnit\Framework\TestCase
         $engine->close(); // write changes
 
         $engine = new ZipEngine(['file' => $file]);
-    
+
         $this->assertEquals('foo', $engine->read('foo.txt'));
         $this->assertEquals('bar', $engine->read('folder/bar.txt'));
         $this->assertEquals('foobar', $engine->read('folder/subfolder/foobar.txt'));
 
         $this->assertTrue($engine->exists('foo.txt'));
-       
+
         // exists files
         $this->assertTrue($engine->exists('folder/bar.txt'));
         $this->assertFalse($engine->exists('folder/dota.txt'));
@@ -79,13 +81,13 @@ class ZipEngineTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($engine->exists('folder/subfolder/foobar.txt'));
 
         // test non-recursive delete
-  
+
         $this->assertTrue($engine->delete('foo.txt'));
-       
+
         $this->assertFalse($engine->exists('foo.txt'));
 
         $this->assertTrue($engine->delete('folder/baz.txt'));
-      
+
         $this->assertFalse($engine->exists('folder/baz.txt'));
         $this->assertTrue($engine->exists('folder/daz.txt')); // santity check
 
@@ -97,25 +99,25 @@ class ZipEngineTest extends \PHPUnit\Framework\TestCase
     public function testReadException()
     {
         $this->expectException(FileNotFoundException::class);
-        (new ZipEngine(['file' => sys_get_temp_dir().'/foo.zip']))->read('foo');
+        (new ZipEngine(['file' => sys_get_temp_dir() . '/foo.zip']))->read('foo');
     }
 
     public function testDeleteException()
     {
         $this->expectException(FileNotFoundException::class);
-        (new ZipEngine(['file' => sys_get_temp_dir().'/foo.zip']))->delete('foo');
+        (new ZipEngine(['file' => sys_get_temp_dir() . '/foo.zip']))->delete('foo');
     }
 
     public function testListException()
     {
         $this->expectException(FileNotFoundException::class);
-        (new ZipEngine(['file' => sys_get_temp_dir().'/foo.zip']))->list('foo');
+        (new ZipEngine(['file' => sys_get_temp_dir() . '/foo.zip']))->list('foo');
     }
 
     public function testConfigException()
     {
         $this->expectException(StorageException::class);
-        new ZipEngine(['foo'=>'bar']);
+        new ZipEngine(['foo' => 'bar']);
     }
 
     public function testConfigExceptionInvalidFile()
@@ -123,6 +125,6 @@ class ZipEngineTest extends \PHPUnit\Framework\TestCase
         $this->expectException(StorageException::class);
         $path = sys_get_temp_dir() . '/' . uniqid();
         mkdir($path, 0000);
-        new ZipEngine(['file'=>$path . '/foo.zip']);
+        new ZipEngine(['file' => $path . '/foo.zip']);
     }
 }

@@ -1,7 +1,8 @@
 <?php
+
 /**
  * OriginPHP Framework
- * Copyright 2018 - 2019 Jamiel Sharief.
+ * Copyright 2018 - 2020 Jamiel Sharief.
  *
  * Licensed under The MIT License
  * The above copyright notice and this permission notice shall be included in all copies or substantial
@@ -11,7 +12,9 @@
  * @link         https://www.originphp.com
  * @license       https://opensource.org/licenses/mit-license.php MIT License
  */
-declare(strict_types = 1);
+
+declare(strict_types=1);
+
 namespace Origin\Storage\Engine;
 
 use InvalidArgumentException;
@@ -68,11 +71,11 @@ class LocalEngine extends BaseEngine
     }
 
     /**
-    * Deletes a file OR directory
-    *
-    * @param string $name
-    * @return boolean
-    */
+     * Deletes a file OR directory
+     *
+     * @param string $name
+     * @return boolean
+     */
     public function delete(string $name) : bool
     {
         $filename = $this->addPathPrefix($name);
@@ -122,7 +125,7 @@ class LocalEngine extends BaseEngine
                 if ($file->isDir()) {
                     continue;
                 }
-              
+
                 $files[] = new FileObject([
                     'name' => str_replace($directory . DIRECTORY_SEPARATOR, '', $file->getPathname()),
                     'timestamp' => $file->getMTime(),
@@ -158,11 +161,11 @@ class LocalEngine extends BaseEngine
     }
 
     /**
-    * Adds the prefix
-    *
-    * @param string $path
-    * @return string
-    */
+     * Adds the prefix
+     *
+     * @param string $path
+     * @return string
+     */
     protected function addPathPrefix(string $path = null) : string
     {
         $location = $this->config('root');

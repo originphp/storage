@@ -1,7 +1,8 @@
 <?php
+
 /**
  * OriginPHP Framework
- * Copyright 2018 - 2019 Jamiel Sharief.
+ * Copyright 2018 - 2020 Jamiel Sharief.
  *
  * Licensed under The MIT License
  * The above copyright notice and this permission notice shall be included in all copies or substantial
@@ -11,6 +12,7 @@
  * @link        https://www.originphp.com
  * @license     https://opensource.org/licenses/mit-license.php MIT License
  */
+
 namespace Origin\Test\Storage\Engine;
 
 use Origin\Storage\Engine\MemoryEngine;
@@ -26,7 +28,7 @@ class MemoryEngineTest extends \PHPUnit\Framework\TestCase
     public function testReadWrite()
     {
         $engine = new MemoryEngine();
-    
+
         $this->assertTrue($engine->write('foo.txt', 'foo'));
         $this->assertTrue($engine->write('folder/bar.txt', 'bar'));
         $this->assertTrue($engine->write('folder/subfolder/foobar.txt', 'foobar'));
@@ -36,7 +38,7 @@ class MemoryEngineTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('foobar', $engine->read('folder/subfolder/foobar.txt'));
 
         $this->assertTrue($engine->exists('foo.txt'));
-       
+
         // exists files
         $this->assertTrue($engine->exists('folder/bar.txt'));
         $this->assertFalse($engine->exists('folder/dota.txt'));

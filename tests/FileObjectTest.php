@@ -1,7 +1,8 @@
 <?php
+
 /**
  * OriginPHP Framework
- * Copyright 2018 - 2019 Jamiel Sharief.
+ * Copyright 2018 - 2020 Jamiel Sharief.
  *
  * Licensed under The MIT License
  * The above copyright notice and this permission notice shall be included in all copies or substantial
@@ -20,7 +21,7 @@ class FileObjectTest extends \PHPUnit\Framework\TestCase
 {
     public function testAccess()
     {
-        $data = ['name' => 'foo.txt','path' => 'folder/subfolder','size' => 32000,'timestamp' => strtotime('2019-10-31 14:40')];
+        $data = ['name' => 'foo.txt', 'path' => 'folder/subfolder', 'size' => 32000, 'timestamp' => strtotime('2019-10-31 14:40')];
         $object = new FileObject($data);
 
         $this->assertEquals('foo.txt', $object['name']);

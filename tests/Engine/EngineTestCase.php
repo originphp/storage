@@ -1,7 +1,8 @@
 <?php
+
 /**
  * OriginPHP Framework
- * Copyright 2018 - 2019 Jamiel Sharief.
+ * Copyright 2018 - 2020 Jamiel Sharief.
  *
  * Licensed under The MIT License
  * The above copyright notice and this permission notice shall be included in all copies or substantial
@@ -60,26 +61,26 @@ class EngineTestCase extends \PHPUnit\Framework\TestCase
     public function testList()
     {
         $files = $this->engine()->list();
-  
+
         $this->assertTrue($this->engine()->exists('foo.txt'));
         // Test Format
         $foo = $this->getFile('foo.txt', $files);
-       
+
         $expected = new FileObject([
             'name' => 'foo.txt',
             'timestamp' => 1559996145,
             'size' => 32,
         ]);
-  
+
         $this->assertEquals($expected, $foo);
-       
+
         // Test Contents
         $this->assertHasFileInList('foo.txt', $files);
         $this->assertHasFileInList('folder/bar.txt', $files);
         $this->assertHasFileInList('folder/subfolder/foobar.txt', $files);
 
         $files = $this->engine()->list('folder');
- 
+
         $this->assertHasFileInList('bar.txt', $files);
         $this->assertHasFileInList('subfolder/foobar.txt', $files);
 
@@ -120,7 +121,7 @@ class EngineTestCase extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->engine()->write('docs/bar.txt', $loremipsum));
         $this->assertTrue($this->engine()->write('docs/dota2/natures_profit.txt', $loremipsum));
         $this->assertTrue($this->engine()->write('docs/dota2/lion.txt', $loremipsum));
-        
+
         $this->assertTrue($this->engine()->delete('docs/dota2'));
         $this->assertFalse($this->engine()->exists('docs/dota2/natures_profit.txt'));
 
@@ -159,11 +160,11 @@ class EngineTestCase extends \PHPUnit\Framework\TestCase
     }
 
     /**
-    * Work with ENV vars
-    *
-    * @param string $key
-    * @return mixed
-    */
+     * Work with ENV vars
+     *
+     * @param string $key
+     * @return mixed
+     */
     public function env(string $key)
     {
         $result = getenv($key);

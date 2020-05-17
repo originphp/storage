@@ -1,7 +1,8 @@
 <?php
+
 /**
  * OriginPHP Framework
- * Copyright 2018 - 2019 Jamiel Sharief.
+ * Copyright 2018 - 2020 Jamiel Sharief.
  *
  * Licensed under The MIT License
  * The above copyright notice and this permission notice shall be included in all copies or substantial
@@ -11,7 +12,9 @@
  * @link         https://www.originphp.com
  * @license       https://opensource.org/licenses/mit-license.php MIT License
  */
-declare(strict_types = 1);
+
+declare(strict_types=1);
+
 namespace Origin\Storage\Engine;
 
 use phpseclib\Net\SFTP;
@@ -31,12 +34,12 @@ class SftpEngine extends BaseEngine
 {
     /**
      * host: the hostname or ip address
-    * port: the port number. default 22
-    * username: the ssh account username
-    * password: the ssh account password
-    * timeout: default 10 seconds
-    * root: the root folder of the storage. e.g. /home/user/sub_folder
-    * privateKey: either the private key for the account or the filename where the private key can be loaded from
+     * port: the port number. default 22
+     * username: the ssh account username
+     * password: the ssh account password
+     * timeout: default 10 seconds
+     * root: the root folder of the storage. e.g. /home/user/sub_folder
+     * privateKey: either the private key for the account or the filename where the private key can be loaded from
      *
      * @var array
      */
@@ -72,7 +75,7 @@ class SftpEngine extends BaseEngine
             $this->config('timeout')
         );
         $this->connection->disableStatCache();
-       
+
         $this->login();
 
         // Set ROOT
@@ -118,11 +121,11 @@ class SftpEngine extends BaseEngine
     {
         $config = $this->config();
         extract($config);
-    
+
         if ($this->config('privateKey')) {
             $password = $this->loadPrivateKey();
         }
-        
+
         if (! $this->connection->login($username, $password)) {
             throw new StorageException('Invalid username or password.');
         }
@@ -177,7 +180,7 @@ class SftpEngine extends BaseEngine
         if (substr($name, -1) === '/') {
             return false;
         }
-        
+
         if ($this->connection->stat($filename)) {
             return $this->connection->delete($filename, true);
         }
@@ -232,7 +235,7 @@ class SftpEngine extends BaseEngine
                 if (in_array($file, ['.', '..'])) {
                     continue;
                 }
-               
+
                 if ($info['type'] === 1) {
                     $files[] = new FileObject([
                         'name' => str_replace($base . '/', '', $location . '/' .  $file),
@@ -257,11 +260,11 @@ class SftpEngine extends BaseEngine
     }
 
     /**
-    * Adds the prefix
-    *
-    * @param string $path
-    * @return string
-    */
+     * Adds the prefix
+     *
+     * @param string $path
+     * @return string
+     */
     protected function addPathPrefix(string $path = null) : string
     {
         $location = $this->config('root');

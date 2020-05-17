@@ -1,7 +1,8 @@
 <?php
+
 /**
  * OriginPHP Framework
- * Copyright 2018 - 2019 Jamiel Sharief.
+ * Copyright 2018 - 2020 Jamiel Sharief.
  *
  * Licensed under The MIT License
  * The above copyright notice and this permission notice shall be included in all copies or substantial
@@ -20,7 +21,7 @@ use Origin\Storage\Engine\FtpEngine;
 
 class FtpEngineTest extends EngineTestCase
 {
-    protected function setUp(): void
+    protected function setUp() : void
     {
         if (! $this->env('FTP_HOST')) {
             $this->markTestSkipped('FTP $this->env vars not set');

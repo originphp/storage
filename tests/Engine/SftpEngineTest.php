@@ -1,7 +1,8 @@
 <?php
+
 /**
  * OriginPHP Framework
- * Copyright 2018 - 2019 Jamiel Sharief.
+ * Copyright 2018 - 2020 Jamiel Sharief.
  *
  * Licensed under The MIT License
  * The above copyright notice and this permission notice shall be included in all copies or substantial
@@ -49,7 +50,7 @@ class MockSftpEngine extends SftpEngine
 
 class SftpEngineTest extends EngineTestCase
 {
-    protected function setUp(): void
+    protected function setUp() : void
     {
         if (! $this->env('SFTP_USERNAME')) {
             $this->markTestSkipped('SFTP $this->env vars not set');
@@ -111,7 +112,7 @@ class SftpEngineTest extends EngineTestCase
     {
         $rsa = new RSA();
         $pair = $rsa->createKey();
-        
+
         $engine = new MockSftpEngine([
             'host' => $this->env('SFTP_HOST'),
             'username' => $this->env('SFTP_USERNAME'),

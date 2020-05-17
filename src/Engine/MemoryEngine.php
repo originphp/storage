@@ -1,7 +1,8 @@
 <?php
+
 /**
  * OriginPHP Framework
- * Copyright 2018 - 2019 Jamiel Sharief.
+ * Copyright 2018 - 2020 Jamiel Sharief.
  *
  * Licensed under The MIT License
  * The above copyright notice and this permission notice shall be included in all copies or substantial
@@ -11,7 +12,9 @@
  * @link         https://www.originphp.com
  * @license      https://opensource.org/licenses/mit-license.php MIT License
  */
-declare(strict_types = 1);
+
+declare(strict_types=1);
+
 namespace Origin\Storage\Engine;
 
 use Origin\Storage\FileObject;
@@ -125,7 +128,7 @@ class MemoryEngine extends BaseEngine
 
         return (isset($this->data[$name]) or isset($this->data[$path][$filename]));
     }
-    
+
     /**
      * Returns the list of files from the storage
      *

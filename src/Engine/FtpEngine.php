@@ -1,7 +1,8 @@
 <?php
+
 /**
  * OriginPHP Framework
- * Copyright 2018 - 2019 Jamiel Sharief.
+ * Copyright 2018 - 2020 Jamiel Sharief.
  *
  * Licensed under The MIT License
  * The above copyright notice and this permission notice shall be included in all copies or substantial
@@ -11,7 +12,9 @@
  * @link         https://www.originphp.com
  * @license       https://opensource.org/licenses/mit-license.php MIT License
  */
-declare(strict_types = 1);
+
+declare(strict_types=1);
+
 namespace Origin\Storage\Engine;
 
 use Exception;
@@ -68,7 +71,7 @@ class FtpEngine extends BaseEngine
         }
 
         if (! $this->connection) {
-            throw new Exception(sprintf('Error connecting to %s.', $this->config('host') . ':'. $this->config('port')));
+            throw new Exception(sprintf('Error connecting to %s.', $this->config('host') . ':' . $this->config('port')));
         }
 
         if (! @ftp_login($this->connection, $username, $password)) {
@@ -112,7 +115,7 @@ class FtpEngine extends BaseEngine
         $filename = $this->addPathPrefix($name);
 
         $path = pathinfo($filename, PATHINFO_DIRNAME);
-       
+
         if (! @ftp_chdir($this->connection, $path)) {
             $this->mkdir($path);
         }
@@ -123,7 +126,7 @@ class FtpEngine extends BaseEngine
         rewind($stream);
 
         return @ftp_fput($this->connection, $filename, $stream, FTP_BINARY);
-    
+
         /*
         $tmpfile = sys_get_temp_dir() . DIRECTORY_SEPARATOR . uniqid();
         file_put_contents($tmpfile,$data);
@@ -151,7 +154,7 @@ class FtpEngine extends BaseEngine
         if (! @ftp_delete($this->connection, $filename)) {
             throw new FileNotFoundException(sprintf('%s does not exist', $name));
         }
-    
+
         return true;
     }
 
@@ -168,7 +171,7 @@ class FtpEngine extends BaseEngine
         if ($this->isDir($filename)) {
             return true;
         }
-        
+
         return $this->fileExists($filename);
     }
 
@@ -323,11 +326,11 @@ class FtpEngine extends BaseEngine
     }
 
     /**
-    * Adds the prefix
-    *
-    * @param string $path
-    * @return string
-    */
+     * Adds the prefix
+     *
+     * @param string $path
+     * @return string
+     */
     protected function addPathPrefix(string $path = null) : string
     {
         $location = $this->config('root');

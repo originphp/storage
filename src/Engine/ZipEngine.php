@@ -1,7 +1,8 @@
 <?php
+
 /**
  * OriginPHP Framework
- * Copyright 2018 - 2019 Jamiel Sharief.
+ * Copyright 2018 - 2020 Jamiel Sharief.
  *
  * Licensed under The MIT License
  * The above copyright notice and this permission notice shall be included in all copies or substantial
@@ -11,7 +12,9 @@
  * @link         https://www.originphp.com
  * @license      https://opensource.org/licenses/mit-license.php MIT License
  */
-declare(strict_types = 1);
+
+declare(strict_types=1);
+
 namespace Origin\Storage\Engine;
 
 use ZipArchive;
@@ -35,7 +38,7 @@ class ZipEngine extends BaseEngine
         if (! $file) {
             throw new StorageException('File config not provided');
         }
-       
+
         $result = file_exists($file) ?  $this->archive->open($file) : $this->archive->open($file, ZipArchive::CREATE);
         if ($result !== true) {
             throw new StorageException('Error opening ' . $file  . ' error: ' . $result);
@@ -85,15 +88,15 @@ class ZipEngine extends BaseEngine
         if ($name and ! $this->exists($name)) {
             throw new FileNotFoundException(sprintf('%s does not exist', $name));
         }
-        
+
         // if its a file then delete it
         if ($this->archive->statName($name) !== false) {
             return $this->archive->deleteName($name);
         }
-        
+
         $length = $name ? strlen($name) : false;
 
-        for ($i = 0;$i < $this->archive->numFiles;$i++) {
+        for ($i = 0; $i < $this->archive->numFiles; $i++) {
             $file = $this->archive->statIndex($i);
             if (! $file) {
                 continue;
@@ -107,7 +110,7 @@ class ZipEngine extends BaseEngine
             }
         }
 
-        return $this->archive->deleteName($name .'/');
+        return $this->archive->deleteName($name . '/');
     }
 
     /**
@@ -118,9 +121,9 @@ class ZipEngine extends BaseEngine
      */
     public function exists(string $name) : bool
     {
-        return ($this->archive->statName($name) !== false or $this->archive->statName($name .'/') !== false);
+        return ($this->archive->statName($name) !== false or $this->archive->statName($name . '/') !== false);
     }
-    
+
     /**
      * Returns the list of files from the storage
      *
@@ -136,7 +139,7 @@ class ZipEngine extends BaseEngine
         $length = $name ? strlen($name) : false;
         $out = [];
 
-        for ($i = 0;$i < $this->archive->numFiles;$i++) {
+        for ($i = 0; $i < $this->archive->numFiles; $i++) {
             $file = $this->archive->statIndex($i);
             if (! $file) {
                 continue;
@@ -154,7 +157,7 @@ class ZipEngine extends BaseEngine
                 ]);
             }
         }
-       
+
         return $out;
     }
 
@@ -169,11 +172,11 @@ class ZipEngine extends BaseEngine
     }
 
     /**
-    * Parses the path info
-    *
-    * @param string $name
-    * @return array
-    */
+     * Parses the path info
+     *
+     * @param string $name
+     * @return array
+     */
     private function pathInfo(string $name) : array
     {
         $result = pathinfo($name);
