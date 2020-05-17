@@ -54,7 +54,7 @@ class S3Engine extends BaseEngine
             'key' => null,
             'secret' => null,
         ],
-        'region' => null,
+        'region' => 'main-rack',
         'version' => 'latest',
         'endpoint' => null, // for S3 comptabile protocols
         'bucket' => 'data'
