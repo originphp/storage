@@ -7,7 +7,7 @@ dist: xenial
 services:
   - docker
 before_install:
-  - docker run -p 9000:9000 minio/minio server /data
+  - docker run -d -p 9000:9000 minio/minio server /data
 before_script:
   - composer install --prefer-source --no-interaction
   - composer require phpseclib/phpseclib
