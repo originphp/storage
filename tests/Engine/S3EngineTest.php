@@ -22,9 +22,13 @@ class S3EngineTest extends EngineTestCase
 {
     protected $engine = null;
 
+    protected $bucket = null;
+
     public function engine()
     {
         if ($this->engine === null) {
+            $this->bucket = 'bucket-' .time();
+
             $this->engine = new S3Engine([
                 'credentials' => [
                     'key' => $this->env('S3_KEY'),
@@ -33,37 +37,32 @@ class S3EngineTest extends EngineTestCase
                 'region' => 'us-east-1',
                 'version' => 'latest',
                 'endpoint' => $this->env('S3_ENDPOINT'), // for S3 comptabile protocols
-                'bucket' => $this->env('S3_BUCKET')
+                'bucket' => $this->bucket
             ]);
         }
 
         return $this->engine;
     }
 
-    public function testBuckets()
+
+    public function testCreateBucket()
     {
-        $s3 = $this->engine();
-        $buckets = $s3->listBuckets();
-        if (! in_array($this->env('S3_BUCKET'), $buckets)) {
-            $this->assertTrue($s3->createBucket($this->env('S3_BUCKET')));
-        }
-        $this->assertTrue(in_array($this->env('S3_BUCKET'), $buckets));
+        $this->assertTrue($this->engine()->createBucket($this->bucket));
+        $this->assertTrue($this->engine()->createBucket($this->bucket .'-delete'));
     }
 
-    /**
-     * @link https://docs.aws.amazon.com/aws-sdk-php/v2/guide/service-s3.html#cleaning-up
-     *
-     * @return void
-     */
-    public function testBucketCreateDelete()
+    public function testListBuckets()
     {
-        $s3 = $this->engine();
-        $id = uniqid();
-        $this->assertTrue($s3->createBucket($id));
-        $this->assertTrue(in_array($id, $s3->listBuckets()));
-        $this->assertTrue($s3->deleteBucket($id));
-        $this->assertFalse(in_array($id, $s3->listBuckets()));
+        $buckets =  $this->engine()->listBuckets();
+        $this->assertNotEmpty($buckets);
+        $this->assertTrue(in_array($this->bucket, $buckets));
     }
+
+    public function testDeleteBucket()
+    {
+        $this->assertTrue($this->engine()->deleteBucket($this->bucket .'-delete'));
+    }
+
     public function testNoCredentials()
     {
         $this->expectException(InvalidArgumentException::class);

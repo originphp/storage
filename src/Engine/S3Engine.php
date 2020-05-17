@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace Origin\Storage\Engine;
 
+use Aws\Exception\AwsException;
 use Aws\Result;
 use Aws\S3\S3Client;
 use InvalidArgumentException;
@@ -36,18 +37,11 @@ class S3Engine extends BaseEngine
      * @var Aws\S3\S3Client $s3
      */
     private $s3;
+
     /**
      * @var string
      */
     private $bucket;
-
-    /**
-     * Hold a list of errors, this has not been implemented
-     * in SFTP or FTP ,but could be worthwhile.
-     *
-     * @var array
-     */
-    private $errors = [];
 
     protected $defaultConfig = [
         'credentials' => [
@@ -102,16 +96,15 @@ class S3Engine extends BaseEngine
      */
     public function createBucket(string $name) : bool
     {
+        $options = ['Bucket' => $name];
+
         try {
-            $result = $this->s3->createBucket([
-                'Bucket' => $name
-            ]);
-          
-            $this->s3->waitUntil('BucketExists', ['Bucket' => $name]);
+            $this->s3->createBucket($options);
+            $this->s3->waitUntil('BucketExists', $options);
 
             return true;
-        } catch (S3Exception $exception) {
-            $this->errors[] = $exception->getAwsErrorMessage();
+        } catch (AwsException $exception) {
+            throw $exception;
         }
 
         return false;
@@ -125,16 +118,14 @@ class S3Engine extends BaseEngine
      */
     public function deleteBucket(string $name) : bool
     {
+        $options = ['Bucket' => $name];
+
         try {
-            $result = $this->s3->deleteBucket([
-                'Bucket' => $name
-            ]);
-          
-            $this->s3->waitUntil('BucketNotExists', ['Bucket' => $name]);
+            $this->s3->deleteBucket($options);
+            $this->s3->waitUntil('BucketNotExists', $options);
 
             return true;
-        } catch (S3Exception $exception) {
-            $this->errors[] = $exception->getAwsErrorMessage();
+        } catch (AwsException $exception) {
         }
 
         return false;
@@ -156,7 +147,6 @@ class S3Engine extends BaseEngine
 
             return (string) $response['Body'];
         } catch (S3Exception $exception) {
-            // $message = $exception->getAwsErrorMessage();
         }
     
         throw new FileNotFoundException(sprintf('%s does not exist', $name));
@@ -182,7 +172,6 @@ class S3Engine extends BaseEngine
 
             return true;
         } catch (S3Exception $exception) {
-            $this->errors[] = $exception->getAwsErrorMessage();
         }
 
         return false;
@@ -245,7 +234,6 @@ class S3Engine extends BaseEngine
 
             return empty($result['DeleteMarker']);
         } catch (S3Exception $exception) {
-            $this->errors[] = $exception->getAwsErrorMessage();
         }
 
         return false;
@@ -301,7 +289,6 @@ class S3Engine extends BaseEngine
                 }
             }
         } catch (S3Exception $exception) {
-            $this->errors[] = $exception->getAwsErrorMessage();
         }
 
         return $files;
@@ -340,19 +327,8 @@ class S3Engine extends BaseEngine
 
             return ! empty($result['Contents'] || ! empty($result['CommonPrefixes']));
         } catch (S3Exception $exception) {
-            $this->errors[] = $exception->getAwsErrorMessage();
         }
 
         return false;
-    }
-
-    /**
-     * Returns a list of errors caught. For debugging and testing going forward. Don't rely on this method.
-     *
-     * @return array
-     */
-    public function errors() : array
-    {
-        return $this->errors;
     }
 }
