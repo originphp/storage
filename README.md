@@ -215,7 +215,7 @@ options for configuring SFTP include:
 - privateKey: either the private key for the account or the filename where the private key can be loaded from
 
 
-## S3
+### S3
 
 The S3 Engine works with [Amazon S3](https://aws.amazon.com/s3/) and any other object storage server which uses the S3 protocol, for example [minio](https://min.io/).
 
@@ -252,7 +252,7 @@ Options for configuring the `S3` engine are:
 - endpoint: If you are not using Amazon S3. e.g. `http://127.0.0.1:9000`
 - bucket: The name of the bucket, this is required and the bucket should exist.
 
-### Minio Server (S3)
+#### Minio Server (S3)
 
 To fire up your own minio server locally you can run the docker command
 
