@@ -60,7 +60,7 @@ class SftpEngine extends BaseEngine
      */
     protected $connection = null;
 
-    public function initialize(array $config) : void
+    public function initialize(array $config): void
     {
         if (! class_exists(SFTP::class)) {
             throw new StorageException('phpseclib not installed.');
@@ -94,7 +94,7 @@ class SftpEngine extends BaseEngine
      *
      * @return RSA
      */
-    protected function loadPrivateKey() : RSA
+    protected function loadPrivateKey(): RSA
     {
         $password = new RSA();
         if ($this->config('password')) {
@@ -117,7 +117,7 @@ class SftpEngine extends BaseEngine
      *
      * @return void
      */
-    protected function login() : void
+    protected function login(): void
     {
         $config = $this->config();
         extract($config);
@@ -137,7 +137,7 @@ class SftpEngine extends BaseEngine
      * @param string $name
      * @return string
      */
-    public function read(string $name) : string
+    public function read(string $name): string
     {
         $filename = $this->addPathPrefix($name);
 
@@ -154,7 +154,7 @@ class SftpEngine extends BaseEngine
      * @param string $data
      * @return bool
      */
-    public function write(string $name, string $data) : bool
+    public function write(string $name, string $data): bool
     {
         $filename = $this->addPathPrefix($name);
         $folder = pathinfo($filename, PATHINFO_DIRNAME);
@@ -172,7 +172,7 @@ class SftpEngine extends BaseEngine
      * @param string $name
      * @return boolean
      */
-    public function delete(string $name) : bool
+    public function delete(string $name): bool
     {
         $filename = $this->addPathPrefix($name);
 
@@ -193,7 +193,7 @@ class SftpEngine extends BaseEngine
      * @param string $name
      * @return bool
      */
-    public function exists(string $name) : bool
+    public function exists(string $name): bool
     {
         $filename = $this->addPathPrefix($name);
 
@@ -205,7 +205,7 @@ class SftpEngine extends BaseEngine
      *
      * @return array
      */
-    public function list(string $name = null) : array
+    public function list(string $name = null): array
     {
         $directory = $this->addPathPrefix($name);
 
@@ -223,7 +223,7 @@ class SftpEngine extends BaseEngine
      * @param string $base
      * @return array
      */
-    protected function scandir(string $directory = null, string $base) : array
+    protected function scandir(string $directory = null, string $base): array
     {
         $location = $this->addPathPrefix($directory);
         $files = [];
@@ -265,7 +265,7 @@ class SftpEngine extends BaseEngine
      * @param string $path
      * @return string
      */
-    protected function addPathPrefix(string $path = null) : string
+    protected function addPathPrefix(string $path = null): string
     {
         $location = $this->config('root');
         if ($path !== null) {

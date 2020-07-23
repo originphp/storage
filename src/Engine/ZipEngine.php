@@ -31,7 +31,7 @@ class ZipEngine extends BaseEngine
      */
     private $archive;
 
-    public function initialize(array $config) : void
+    public function initialize(array $config): void
     {
         $this->archive = new ZipArchive();
         $file = $this->config('file');
@@ -51,7 +51,7 @@ class ZipEngine extends BaseEngine
      * @param string $name
      * @return string
      */
-    public function read(string $name) : string
+    public function read(string $name): string
     {
         $contents = $this->archive->getFromName($name);
         if ($contents) {
@@ -67,7 +67,7 @@ class ZipEngine extends BaseEngine
      * @param string $data
      * @return bool
      */
-    public function write(string $name, string $data) : bool
+    public function write(string $name, string $data): bool
     {
         list($path, $filename) = $this->pathInfo($name);
         if ($path) {
@@ -83,9 +83,9 @@ class ZipEngine extends BaseEngine
      * @param string $name
      * @return bool
      */
-    public function delete(string $name) : bool
+    public function delete(string $name): bool
     {
-        if ($name and ! $this->exists($name)) {
+        if ($name && ! $this->exists($name)) {
             throw new FileNotFoundException(sprintf('%s does not exist', $name));
         }
 
@@ -119,9 +119,9 @@ class ZipEngine extends BaseEngine
      * @param string $name
      * @return bool
      */
-    public function exists(string $name) : bool
+    public function exists(string $name): bool
     {
-        return ($this->archive->statName($name) !== false or $this->archive->statName($name . '/') !== false);
+        return ($this->archive->statName($name) !== false || $this->archive->statName($name . '/') !== false);
     }
 
     /**
@@ -130,9 +130,9 @@ class ZipEngine extends BaseEngine
      * @param string $name
      * @return array
      */
-    public function list(string $name = null) : array
+    public function list(string $name = null): array
     {
-        if ($name and ! $this->exists($name)) {
+        if ($name && ! $this->exists($name)) {
             throw new FileNotFoundException(sprintf('%s does not exist', $name));
         }
 
@@ -149,7 +149,7 @@ class ZipEngine extends BaseEngine
                 continue;
             }
 
-            if ($name === null or ($length and substr($file['name'], 0, $length) === $name)) {
+            if ($name === null || ($length && substr($file['name'], 0, $length) === $name)) {
                 $out[] = new FileObject([
                     'name' => $file['name'],
                     'size' => $file['size'],
@@ -166,7 +166,7 @@ class ZipEngine extends BaseEngine
      *
      * @return boolean
      */
-    public function close() : bool
+    public function close(): bool
     {
         return $this->archive->close();
     }
@@ -177,7 +177,7 @@ class ZipEngine extends BaseEngine
      * @param string $name
      * @return array
      */
-    private function pathInfo(string $name) : array
+    private function pathInfo(string $name): array
     {
         $result = pathinfo($name);
 

@@ -37,7 +37,7 @@ class S3EngineTest extends EngineTestCase
                 'region' => 'us-east-1',
                 'version' => 'latest',
                 'endpoint' => $this->env('S3_ENDPOINT'), // for S3 comptabile protocols
-                'bucket' =>  $this->env('S3_BUCKET')
+                'bucket' => $this->env('S3_BUCKET')
             ]);
             
             $this->engine()->createBucket($this->bucket);
@@ -45,7 +45,6 @@ class S3EngineTest extends EngineTestCase
 
         return $this->engine;
     }
-
 
     public function testListBuckets()
     {

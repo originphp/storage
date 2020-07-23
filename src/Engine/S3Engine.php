@@ -16,11 +16,11 @@ declare(strict_types=1);
 
 namespace Origin\Storage\Engine;
 
-use Aws\Exception\AwsException;
 use Aws\Result;
 use Aws\S3\S3Client;
 use InvalidArgumentException;
 use Origin\Storage\FileObject;
+use Aws\Exception\AwsException;
 use Aws\S3\Exception\S3Exception;
 use Origin\Storage\Exception\FileNotFoundException;
 use Aws\S3\Exception\DeleteMultipleObjectsException;
@@ -54,7 +54,7 @@ class S3Engine extends BaseEngine
         'bucket' => 'data'
     ];
 
-    protected function initialize(array $config) : void
+    protected function initialize(array $config): void
     {
         $credentials = $this->config('credentials');
 
@@ -78,7 +78,7 @@ class S3Engine extends BaseEngine
      *
      * @return array
      */
-    public function listBuckets() : array
+    public function listBuckets(): array
     {
         $out = [];
         $buckets = $this->s3->listBuckets();
@@ -95,13 +95,14 @@ class S3Engine extends BaseEngine
      * @param string $name
      * @return boolean
      */
-    public function createBucket(string $name) : bool
+    public function createBucket(string $name): bool
     {
         $options = ['Bucket' => $name];
     
         try {
             $this->s3->createBucket($options);
             $this->s3->waitUntil('BucketExists', $options);
+
             return true;
         } catch (AwsException $exception) {
         }
@@ -115,7 +116,7 @@ class S3Engine extends BaseEngine
      * @param string $name
      * @return boolean
      */
-    public function deleteBucket(string $name) : bool
+    public function deleteBucket(string $name): bool
     {
         $options = ['Bucket' => $name];
 
@@ -136,7 +137,7 @@ class S3Engine extends BaseEngine
      * @param string $name
      * @return string
      */
-    public function read(string $name) : string
+    public function read(string $name): string
     {
         try {
             $response = $this->s3->getObject([
@@ -160,7 +161,7 @@ class S3Engine extends BaseEngine
      * @param string $data
      * @return bool
      */
-    public function write(string $name, string $data) : bool
+    public function write(string $name, string $data): bool
     {
         try {
             $result = $this->s3->putObject([
@@ -182,7 +183,7 @@ class S3Engine extends BaseEngine
      * @param string $name
      * @return bool
      */
-    public function delete(string $name) : bool
+    public function delete(string $name): bool
     {
         // Disable anything with trailing /
         if (substr($name, -1) === '/') {
@@ -206,7 +207,7 @@ class S3Engine extends BaseEngine
      * @param string $name
      * @return boolean
      */
-    private function deleteDirectory(string $name) : bool
+    private function deleteDirectory(string $name): bool
     {
         try {
             $this->s3->deleteMatchingObjects($this->bucket, trim($name, '/') . '/');
@@ -223,7 +224,7 @@ class S3Engine extends BaseEngine
      * @param string $name
      * @return boolean
      */
-    private function deleteObject(string $name) : bool
+    private function deleteObject(string $name): bool
     {
         try {
             $result = $this->s3->deleteObject([
@@ -247,7 +248,7 @@ class S3Engine extends BaseEngine
      * @param string $name
      * @return bool
      */
-    public function exists(string $name) : bool
+    public function exists(string $name): bool
     {
         $name = trim($name, '/');
         if ($this->s3->doesObjectExist($this->config('bucket'), $name)) {
@@ -263,7 +264,7 @@ class S3Engine extends BaseEngine
      * @param string $name
      * @return array
      */
-    public function list(string $name = null) : array
+    public function list(string $name = null): array
     {
         $name = trim((string) $name, '/');
 
@@ -299,7 +300,7 @@ class S3Engine extends BaseEngine
      * @param \Aws\Result $result
      * @return array
      */
-    private function getListObjects(Result $result) : array
+    private function getListObjects(Result $result): array
     {
         $contents = $result->get('Contents') ?? [];
         $common = $result->get('CommonPrefixes') ?? [];
@@ -313,7 +314,7 @@ class S3Engine extends BaseEngine
      * @param string $name
      * @return boolean
      */
-    private function isDirectory(string $name) : bool
+    private function isDirectory(string $name): bool
     {
         $command = $this->s3->getCommand('listObjects', [
             'Bucket' => $this->bucket,

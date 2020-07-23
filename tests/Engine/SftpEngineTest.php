@@ -28,7 +28,7 @@ use Origin\Storage\Exception\FileNotFoundException;
 
 class MockSftpEngine extends SftpEngine
 {
-    public function initialize(array $config) : void
+    public function initialize(array $config): void
     {
         // dont do anthing
     }
@@ -50,7 +50,7 @@ class MockSftpEngine extends SftpEngine
 
 class SftpEngineTest extends EngineTestCase
 {
-    protected function setUp() : void
+    protected function setUp(): void
     {
         if (! $this->env('SFTP_USERNAME')) {
             $this->markTestSkipped('SFTP $this->env vars not set');

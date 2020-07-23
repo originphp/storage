@@ -27,10 +27,10 @@ class LocalEngine extends BaseEngine
 {
     protected $defaultConfig = [];
 
-    public function initialize(array $config) : void
+    public function initialize(array $config): void
     {
         $root = $this->config('root');
-        if (! $root or (! file_exists($root) and ! is_dir($root))) {
+        if (! $root || (! file_exists($root) && ! is_dir($root))) {
             throw new InvalidArgumentException(sprintf('Invalid root `%s`.', $root));
         }
     }
@@ -41,7 +41,7 @@ class LocalEngine extends BaseEngine
      * @param string $name
      * @return string
      */
-    public function read(string $name) : string
+    public function read(string $name): string
     {
         $filename = $this->addPathPrefix($name);
 
@@ -58,7 +58,7 @@ class LocalEngine extends BaseEngine
      * @param string $data
      * @return bool
      */
-    public function write(string $name, string $data) : bool
+    public function write(string $name, string $data): bool
     {
         $filename = $this->addPathPrefix($name);
 
@@ -76,7 +76,7 @@ class LocalEngine extends BaseEngine
      * @param string $name
      * @return boolean
      */
-    public function delete(string $name) : bool
+    public function delete(string $name): bool
     {
         $filename = $this->addPathPrefix($name);
 
@@ -101,7 +101,7 @@ class LocalEngine extends BaseEngine
      * @param string $name
      * @return bool
      */
-    public function exists(string $name) : bool
+    public function exists(string $name): bool
     {
         $filename = $this->addPathPrefix($name);
 
@@ -113,7 +113,7 @@ class LocalEngine extends BaseEngine
      *
      * @return array
      */
-    public function list(string $name = null) : array
+    public function list(string $name = null): array
     {
         $directory = $this->addPathPrefix($name);
 
@@ -144,7 +144,7 @@ class LocalEngine extends BaseEngine
      * @param string $directory
      * @return bool
      */
-    protected function rmdir(string $directory, bool $recursive = true) : bool
+    protected function rmdir(string $directory, bool $recursive = true): bool
     {
         if ($recursive) {
             $files = array_diff(scandir($directory), ['.', '..']);
@@ -166,7 +166,7 @@ class LocalEngine extends BaseEngine
      * @param string $path
      * @return string
      */
-    protected function addPathPrefix(string $path = null) : string
+    protected function addPathPrefix(string $path = null): string
     {
         $location = $this->config('root');
         if ($path) {

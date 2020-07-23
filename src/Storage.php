@@ -47,7 +47,7 @@ class Storage
      * @param string $name
      * @return \Origin\Storage\Engine\BaseEngine
      */
-    public static function volume(string $name) : BaseEngine
+    public static function volume(string $name): BaseEngine
     {
         return static::engine($name);
     }
@@ -58,7 +58,7 @@ class Storage
      * @param string $name
      * @return \Origin\Storage\Engine\BaseEngine
      */
-    public static function engine(string $name) : BaseEngine
+    public static function engine(string $name): BaseEngine
     {
         if (isset(static::$loaded[$name])) {
             return static::$loaded[$name];
@@ -74,14 +74,14 @@ class Storage
      * @throws \InvalidArgumentException
      * @return \Origin\Storage\Engine\BaseEngine
      */
-    protected static function buildEngine(string $name) : BaseEngine
+    protected static function buildEngine(string $name): BaseEngine
     {
         $config = static::config($name);
         if ($config) {
             if (isset($config['engine'])) {
                 $config['className'] = "Origin\Storage\Engine\\{$config['engine']}Engine";
             }
-            if (empty($config['className']) or ! class_exists($config['className'])) {
+            if (empty($config['className']) || ! class_exists($config['className'])) {
                 throw new InvalidArgumentException("Storage Engine for {$name} could not be found");
             }
 
@@ -98,7 +98,7 @@ class Storage
      *   - config: default:default the name of the config to use
      * @return string
      */
-    public static function read(string $name, array $options = []) : string
+    public static function read(string $name, array $options = []): string
     {
         $options += ['config' => self::$default];
         $engine = static::engine($options['config']);
@@ -114,7 +114,7 @@ class Storage
      *   - config: default:default the name of the config to use
      * @return bool
      */
-    public static function write(string $name, $value, array $options = []) : bool
+    public static function write(string $name, $value, array $options = []): bool
     {
         $options += ['config' => self::$default];
         $engine = static::engine($options['config']);
@@ -130,7 +130,7 @@ class Storage
      *   - config: default:default the name of the config to use
      * @return bool
      */
-    public static function exists(string $name, array $options = []) : bool
+    public static function exists(string $name, array $options = []): bool
     {
         $options += ['config' => self::$default];
         $engine = static::engine($options['config']);
@@ -146,7 +146,7 @@ class Storage
      *   - config: default:default the name of the config to use
      * @return boolean
      */
-    public static function delete(string $name, array $options = []) : bool
+    public static function delete(string $name, array $options = []): bool
     {
         $options += ['config' => self::$default];
         $engine = static::engine($options['config']);
@@ -162,7 +162,7 @@ class Storage
      *   - config: default:default the name of the config to use
      * @return array
      */
-    public static function list(string $path = null, array $options = []) : array
+    public static function list(string $path = null, array $options = []): array
     {
         $options += ['config' => self::$default];
         $engine = static::engine($options['config']);

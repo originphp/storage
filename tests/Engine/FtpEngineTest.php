@@ -21,7 +21,7 @@ use Origin\Storage\Engine\FtpEngine;
 
 class FtpEngineTest extends EngineTestCase
 {
-    protected function setUp() : void
+    protected function setUp(): void
     {
         if (! $this->env('FTP_HOST')) {
             $this->markTestSkipped('FTP $this->env vars not set');

@@ -37,7 +37,7 @@ class FtpEngine extends BaseEngine
 
     protected $connection = null;
 
-    public function initialize(array $config) : void
+    public function initialize(array $config): void
     {
         if ($this->config('host') === null) {
             throw new InvalidArgumentException('No host set');
@@ -60,7 +60,7 @@ class FtpEngine extends BaseEngine
      *
      * @return void
      */
-    protected function login() : void
+    protected function login(): void
     {
         $config = $this->config();
         extract($config);
@@ -87,7 +87,7 @@ class FtpEngine extends BaseEngine
      * @param string $name
      * @return string
      */
-    public function read(string $name) : string
+    public function read(string $name): string
     {
         $filename = $this->addPathPrefix($name);
 
@@ -110,7 +110,7 @@ class FtpEngine extends BaseEngine
      * @param string $data
      * @return bool
      */
-    public function write(string $name, string $data) : bool
+    public function write(string $name, string $data): bool
     {
         $filename = $this->addPathPrefix($name);
 
@@ -139,7 +139,7 @@ class FtpEngine extends BaseEngine
      * @param string $name
      * @return boolean
      */
-    public function delete(string $name) : bool
+    public function delete(string $name): bool
     {
         $filename = $this->addPathPrefix($name);
 
@@ -164,7 +164,7 @@ class FtpEngine extends BaseEngine
      * @param string $name
      * @return bool
      */
-    public function exists(string $name) : bool
+    public function exists(string $name): bool
     {
         $filename = $this->addPathPrefix($name);
 
@@ -180,7 +180,7 @@ class FtpEngine extends BaseEngine
      *
      * @return void
      */
-    public function disconnect() : void
+    public function disconnect(): void
     {
         if ($this->connection) {
             ftp_close($this->connection);
@@ -193,7 +193,7 @@ class FtpEngine extends BaseEngine
      *
      * @return array
      */
-    public function list(string $name = null) : array
+    public function list(string $name = null): array
     {
         $directory = $this->addPathPrefix($name);
 
@@ -212,11 +212,11 @@ class FtpEngine extends BaseEngine
      * @param string $filename
      * @return boolean
      */
-    protected function fileExists(string $filename) : bool
+    protected function fileExists(string $filename): bool
     {
         $path = pathinfo($filename, PATHINFO_DIRNAME);
         $list = ftp_nlist($this->connection, $path);
-        if (is_array($list) and in_array($filename, $list)) {
+        if (is_array($list) && in_array($filename, $list)) {
             return true;
         }
 
@@ -229,7 +229,7 @@ class FtpEngine extends BaseEngine
      * @param string $path
      * @return void
      */
-    protected function mkdir(string $path) : void
+    protected function mkdir(string $path): void
     {
         ftp_chdir($this->connection, $this->config('root'));
 
@@ -250,7 +250,7 @@ class FtpEngine extends BaseEngine
      * @param string $directory
      * @return boolean
      */
-    protected function isDir(string $directory) : bool
+    protected function isDir(string $directory): bool
     {
         if (! @ftp_chdir($this->connection, $directory)) {
             return false;
@@ -267,7 +267,7 @@ class FtpEngine extends BaseEngine
      * @param string $base
      * @return array
      */
-    protected function scandir(string $directory = null, string $base) : array
+    protected function scandir(string $directory = null, string $base): array
     {
         $location = $this->addPathPrefix($directory);
         $files = [];
@@ -309,7 +309,7 @@ class FtpEngine extends BaseEngine
      * @param string $directory
      * @return bool
      */
-    protected function rmdir(string $directory, bool $recursive = true) : bool
+    protected function rmdir(string $directory, bool $recursive = true): bool
     {
         if ($recursive) {
             $files = ftp_nlist($this->connection, $directory);
@@ -331,7 +331,7 @@ class FtpEngine extends BaseEngine
      * @param string $path
      * @return string
      */
-    protected function addPathPrefix(string $path = null) : string
+    protected function addPathPrefix(string $path = null): string
     {
         $location = $this->config('root');
         if ($path) {

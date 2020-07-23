@@ -35,7 +35,7 @@ class MemoryEngine extends BaseEngine
      * @param string $name
      * @return string
      */
-    public function read(string $name) : string
+    public function read(string $name): string
     {
         list($path, $filename) = $this->pathInfo($name);
         if (isset($this->data[$path][$filename])) {
@@ -51,7 +51,7 @@ class MemoryEngine extends BaseEngine
      * @param string $data
      * @return bool
      */
-    public function write(string $name, string $data) : bool
+    public function write(string $name, string $data): bool
     {
         list($path, $filename) = $this->pathInfo($name);
 
@@ -71,7 +71,7 @@ class MemoryEngine extends BaseEngine
      * @param string $name
      * @return array
      */
-    private function pathInfo(string $name) : array
+    private function pathInfo(string $name): array
     {
         $result = pathinfo($name);
 
@@ -87,9 +87,9 @@ class MemoryEngine extends BaseEngine
      * @param string $name
      * @return bool
      */
-    public function delete(string $name) : bool
+    public function delete(string $name): bool
     {
-        if ($name and ! $this->exists($name)) {
+        if ($name && ! $this->exists($name)) {
             throw new FileNotFoundException(sprintf('%s does not exist', $name));
         }
 
@@ -122,11 +122,11 @@ class MemoryEngine extends BaseEngine
      * @param string $name
      * @return bool
      */
-    public function exists(string $name) : bool
+    public function exists(string $name): bool
     {
         list($path, $filename) = $this->pathInfo($name);
 
-        return (isset($this->data[$name]) or isset($this->data[$path][$filename]));
+        return (isset($this->data[$name]) || isset($this->data[$path][$filename]));
     }
 
     /**
@@ -135,9 +135,9 @@ class MemoryEngine extends BaseEngine
      * @param string $name
      * @return array
      */
-    public function list(string $name = null) : array
+    public function list(string $name = null): array
     {
-        if ($name and ! $this->exists($name)) {
+        if ($name && ! $this->exists($name)) {
             throw new FileNotFoundException(sprintf('%s does not exist', $name));
         }
 
@@ -150,7 +150,7 @@ class MemoryEngine extends BaseEngine
 
         foreach ($data as $files) {
             foreach ($files as $file) {
-                if ($name === null or ($length and substr($file->name, 0, $length) === $name)) {
+                if ($name === null || ($length && substr($file->name, 0, $length) === $name)) {
                     unset($file['_contents']);
                     $out[] = $file;
                 }

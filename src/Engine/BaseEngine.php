@@ -42,7 +42,7 @@ abstract class BaseEngine
      * @param string $name
      * @return string
      */
-    abstract public function read(string $name) : string;
+    abstract public function read(string $name): string;
 
     /**
      * Writes to the storage
@@ -51,7 +51,7 @@ abstract class BaseEngine
      * @param string $data
      * @return bool
      */
-    abstract public function write(string $name, string $data) : bool;
+    abstract public function write(string $name, string $data): bool;
 
     /**
      * Deletes from the storage
@@ -59,7 +59,7 @@ abstract class BaseEngine
      * @param string $name
      * @return bool
      */
-    abstract public function delete(string $name) : bool;
+    abstract public function delete(string $name): bool;
 
     /**
      * Checks if a file exists on the storage
@@ -67,7 +67,7 @@ abstract class BaseEngine
      * @param string $name
      * @return bool
      */
-    abstract public function exists(string $name) : bool;
+    abstract public function exists(string $name): bool;
 
     /**
      * Returns the list of files from the storage
@@ -75,7 +75,7 @@ abstract class BaseEngine
      * @param string $name
      * @return array
      */
-    abstract public function list(string $name = null) : array;
+    abstract public function list(string $name = null): array;
 
     /**
      * Rebases a file depending where it is in the tree
@@ -84,7 +84,7 @@ abstract class BaseEngine
      * @param string $base
      * @return string
      */
-    protected function rebase(string $file, string $base = null) : string
+    protected function rebase(string $file, string $base = null): string
     {
         if (! empty(trim($base, '/'))) {
             $file = substr($file, strlen($base));
