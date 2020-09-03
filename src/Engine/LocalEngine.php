@@ -102,7 +102,7 @@ class LocalEngine extends BaseEngine
             $old = umask(0);
             mkdir($directory, 0755, true);
             umask($old);
-            clearstatcache(false, $directory);
+            clearstatcache(true, $directory);
         }
     }
 
