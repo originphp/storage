@@ -129,7 +129,8 @@ use Origin\Storage\Engine\LocalEngine;
 
 Storage::config('default', [
     'className' => LocalEngine::class
-    'root' => '/var/www/storage'
+    'root' => '/var/www/storage',
+    'lock' => true // default
  ]);
 ```
 

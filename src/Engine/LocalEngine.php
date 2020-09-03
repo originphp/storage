@@ -21,11 +21,14 @@ use InvalidArgumentException;
 use Origin\Storage\FileObject;
 use RecursiveIteratorIterator;
 use RecursiveDirectoryIterator;
+use Origin\Storage\Exception\StorageException;
 use Origin\Storage\Exception\FileNotFoundException;
 
 class LocalEngine extends BaseEngine
 {
-    protected $defaultConfig = [];
+    protected $defaultConfig = [
+        'lock' => false
+    ];
 
     public function initialize(array $config): void
     {
@@ -45,10 +48,21 @@ class LocalEngine extends BaseEngine
     {
         $filename = $this->addPathPrefix($name);
 
-        if (is_file($filename)) {
-            return file_get_contents($filename);
+        if (! is_file($filename)) {
+            throw new FileNotFoundException(sprintf('File %s does not exist', $name));
         }
-        throw new FileNotFoundException(sprintf('File %s does not exist', $name));
+
+        $handle = fopen($filename, 'r') ;
+        defer($context, 'fclose', $handle);
+
+        if ($this->config('lock')) {
+            if (! flock($handle, LOCK_SH)) {
+                throw new StorageException('Error getting shared lock.');
+            }
+            defer($context, 'flock', $handle, LOCK_UN);
+        }
+       
+        return fread($handle, filesize($filename));
     }
 
     /**
@@ -63,11 +77,33 @@ class LocalEngine extends BaseEngine
         $filename = $this->addPathPrefix($name);
 
         $folder = pathinfo($filename, PATHINFO_DIRNAME);
-        if (! file_exists($folder)) {
-            mkdir($folder, 0744, true);
+        $this->createDirectoryIfNotExists($folder);
+
+        $handle = fopen($filename, 'w') ;
+        defer($context, 'fclose', $handle);
+
+        if ($this->config('lock')) {
+            if (! flock($handle, LOCK_EX)) {
+                throw new StorageException('Error getting exclusive lock.');
+            }
+            defer($context, 'flock', $handle, LOCK_UN);
         }
 
-        return (bool) file_put_contents($filename, $data, LOCK_EX);
+        return (bool) fputs($handle, $data);
+    }
+
+    /**
+     * @param string $directory
+     * @return void
+     */
+    private function createDirectoryIfNotExists(string $directory): void
+    {
+        if (! is_dir($directory)) {
+            $old = umask(0);
+            mkdir($directory, 0755, true);
+            umask($old);
+            clearstatcache(false, $directory);
+        }
     }
 
     /**
