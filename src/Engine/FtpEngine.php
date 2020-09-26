@@ -270,6 +270,8 @@ class FtpEngine extends BaseEngine
     protected function scandir(string $directory = null, string $base): array
     {
         $location = $this->addPathPrefix($directory);
+        $root = $this->config('root');
+
         $files = [];
 
         $contents = ftp_rawlist($this->connection, $directory ?: '/', true);
@@ -291,10 +293,10 @@ class FtpEngine extends BaseEngine
                     }
                 } else {
                     $files[] = new FileObject([
-                        'name' => trim($this->rebase($location . '/' .  $file, $base . '/'), '/'),
+                        'name' => trim($this->rebase($location . '/' .  $file, $root . '/'), '/'),
                         'timestamp' => ftp_mdtm($this->connection, $location . '/' . $file),
                         'size' => $result[4],
-                    ], $location . '/' .  $file);
+                    ]);
                 }
             }
         }

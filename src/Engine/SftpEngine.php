@@ -226,6 +226,8 @@ class SftpEngine extends BaseEngine
     protected function scandir(string $directory = null, string $base): array
     {
         $location = $this->addPathPrefix($directory);
+        $root = $this->config('root');
+
         $files = [];
 
         $contents = $this->connection->rawlist($location);
@@ -238,10 +240,10 @@ class SftpEngine extends BaseEngine
 
                 if ($info['type'] === 1) {
                     $files[] = new FileObject([
-                        'name' => trim($this->rebase($location . '/' .  $file, $base . '/'), '/'),
+                        'name' => trim($this->rebase($location . '/' .  $file, $root . '/'), '/'),
                         'timestamp' => $info['mtime'],
                         'size' => $info['size'],
-                    ], $location . '/' .  $file);
+                    ]);
                 } elseif ($info['type'] === 2) {
                     $subDirectory = $file;
                     if ($directory) {

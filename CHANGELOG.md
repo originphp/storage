@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0] - 2020-09-26
+
+### Changed
+
+- Changed how `list` method works, in version 1.x when listing contents of folders these were relative to folder that was being listed, now it always returns the name represents the full path (BC)
+
 ## [1.4.0] - 2020-09-26
 
 ### Added

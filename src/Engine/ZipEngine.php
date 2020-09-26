@@ -151,7 +151,7 @@ class ZipEngine extends BaseEngine
                     'name' => $file['name'],
                     'size' => $file['size'],
                     'timestamp' => $file['mtime'],
-                ], $file['name']);
+                ]);
             }
         }
 

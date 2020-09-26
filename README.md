@@ -67,6 +67,8 @@ Folders are deleted recursively automatically, when using delete.
 
 ### Listing Storage Contents
 
+> Version 2.0 no longer lists names of files relative to the path you pass to the list method. The full path name is always returned.
+
 To list the files on the storage
 
 ```php

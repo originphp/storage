@@ -69,7 +69,6 @@ class EngineTestCase extends \PHPUnit\Framework\TestCase
         $this->assertEquals(1559996145, $foo->timestamp);
         $this->assertEquals(32, $foo->size);
 
-
         // Test Contents
         $this->assertHasFileInList('foo.txt', $files);
         $this->assertHasFileInList('folder/bar.txt', $files);
@@ -77,11 +76,11 @@ class EngineTestCase extends \PHPUnit\Framework\TestCase
 
         $files = $this->engine()->list('folder');
 
-        $this->assertHasFileInList('bar.txt', $files);
-        $this->assertHasFileInList('subfolder/foobar.txt', $files);
+        $this->assertHasFileInList('folder/bar.txt', $files);
+        $this->assertHasFileInList('folder/subfolder/foobar.txt', $files);
 
         $files = $this->engine()->list('folder/subfolder');
-        $this->assertHasFileInList('foobar.txt', $files);
+        $this->assertHasFileInList('folder/subfolder/foobar.txt', $files);
 
         $this->expectException(FileNotFoundException::class);
         $this->engine()->list('a-folder-that-does-not-exist');

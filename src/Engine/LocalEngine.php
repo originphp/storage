@@ -153,6 +153,8 @@ class LocalEngine extends BaseEngine
     {
         $directory = $this->addPathPrefix($name);
 
+        $root = $this->config('root');
+
         if (file_exists($directory)) {
             $rii = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($directory));
 
@@ -163,10 +165,10 @@ class LocalEngine extends BaseEngine
                 }
       
                 $files[] = new FileObject([
-                    'name' => $this->rebase($file->getPathname(), $directory . '/'),
+                    'name' => $this->rebase($file->getPathname(), $root . '/'),
                     'timestamp' => $file->getMTime(),
                     'size' => $file->getSize(),
-                ], $file->getPathname());
+                ]);
             }
 
             return $files;
