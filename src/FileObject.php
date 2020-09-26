@@ -57,7 +57,11 @@ class FileObject implements ArrayAccess
 
     public function &__get($key)
     {
-        return $this->data[$key];
+        $value =  null;
+        if (isset($this->data[$key])) {
+            $value = &$this->data[$key];
+        }
+        return $value;
     }
 
     public function __set($key, $value)
