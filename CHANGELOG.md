@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Changed how `list` method works, in version 1.x when listing contents of folders these were relative to folder that was being listed, now it always returns the name represents the full path (BC)
+- Changed `list` return data, name now represents the filename, and added path which includes the directory and filename. (Breaking Change)
 
 ## [1.4.0] - 2020-09-26
 

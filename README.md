@@ -30,9 +30,7 @@ Storage::config('default', [
 ]);
 ```
 
-
 ## Using Storage
-
 
 ### Writing To Storage
 
