@@ -57,10 +57,11 @@ class FileObject implements ArrayAccess
 
     public function &__get($key)
     {
-        $value =  null;
+        $value = null;
         if (isset($this->data[$key])) {
             $value = &$this->data[$key];
         }
+
         return $value;
     }
 
