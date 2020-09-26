@@ -166,7 +166,7 @@ class LocalEngine extends BaseEngine
                     'name' => $this->rebase($file->getPathname(), $directory . '/'),
                     'timestamp' => $file->getMTime(),
                     'size' => $file->getSize(),
-                ]);
+                ], $file->getPathname());
             }
 
             return $files;

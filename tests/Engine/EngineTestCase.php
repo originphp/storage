@@ -65,14 +65,10 @@ class EngineTestCase extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->engine()->exists('foo.txt'));
         // Test Format
         $foo = $this->getFile('foo.txt', $files);
+        $this->assertEquals('foo.txt', $foo->name);
+        $this->assertEquals(1559996145, $foo->timestamp);
+        $this->assertEquals(32, $foo->size);
 
-        $expected = new FileObject([
-            'name' => 'foo.txt',
-            'timestamp' => 1559996145,
-            'size' => 32,
-        ]);
-
-        $this->assertEquals($expected, $foo);
 
         // Test Contents
         $this->assertHasFileInList('foo.txt', $files);

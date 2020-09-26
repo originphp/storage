@@ -60,7 +60,7 @@ class MemoryEngine extends BaseEngine
             'size' => mb_strlen($data, '8bit'),
             'timestamp' => time(),
             '_contents' => $data
-        ]);
+        ], $name);
 
         return true;
     }

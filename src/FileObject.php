@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OriginPHP Framework
  * Copyright 2018 - 2020 Jamiel Sharief.
@@ -12,7 +11,6 @@
  * @link         https://www.originphp.com
  * @license       https://opensource.org/licenses/mit-license.php MIT License
  */
-
 declare(strict_types=1);
 
 namespace Origin\Storage;
@@ -26,9 +24,12 @@ class FileObject implements ArrayAccess
 {
     private $data = [];
 
-    public function __construct(array $data)
+    private $path = null;
+
+    public function __construct(array $data, string $path)
     {
         $this->data = $data;
+        $this->path = $path;
     }
 
     public function offsetSet($offset, $value)
@@ -83,5 +84,10 @@ class FileObject implements ArrayAccess
     public function __debugInfo()
     {
         return $this->data;
+    }
+
+    public function __toString()
+    {
+        return $this->path;
     }
 }

@@ -77,18 +77,19 @@ $allFiles = Storage::list();
 Storage contents are listed recursively and it will provide you with an array of `FileObjects`. Each file has is an object which can be accessed as an array or an object
 
 ```php
-
 // Will look like this
-[
-    'name' => 'foobar.txt',
-    'path' => 'folder/subfolder',
-    'timestamp' => 1572444094,
-    'size' => 32
-];
+Origin\Storage\FileObject Object
+(
+    [name] => folder/bar.txt
+    [timestamp] => 1601121922
+    [size] => 32
+)
 
 echo $file->name;
 echo $file['name'];
 ```
+
+When the `FileObject` is converted to a string it will become a path e.g. `/main/subfolder/foo.txt`
 
 If you just want the files of particular folder, then it will list all files recursively under that folder.
 
@@ -113,8 +114,8 @@ Or you can pass an options array telling the Storage object which configuration 
 
 ```php
 $data = Storage::read('transactions.csv',[
-     'config'=>'sftp-backup'
-     ]);
+    'config'=>'sftp-backup'
+]);
 ```
 
 ## Storage Engines
@@ -200,7 +201,7 @@ Storage::config('default', [
     'port' => 22,
     'username' => 'james',
     'privateKey' => '/var/www/config/id_rsa'
-     ]);
+]);
 ```
 
 If your private key requires a password then you can provide that as well. See the [How to setup SSH keys ](https://linuxize.com/post/how-to-set-up-ssh-keys-on-ubuntu-1804/) tutorial for more information.

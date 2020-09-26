@@ -241,7 +241,7 @@ class SftpEngine extends BaseEngine
                         'name' => trim($this->rebase($location . '/' .  $file, $base . '/'), '/'),
                         'timestamp' => $info['mtime'],
                         'size' => $info['size'],
-                    ]);
+                    ], $location . '/' .  $file);
                 } elseif ($info['type'] === 2) {
                     $subDirectory = $file;
                     if ($directory) {

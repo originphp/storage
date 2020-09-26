@@ -1,5 +1,4 @@
 <?php
-
 /**
  * OriginPHP Framework
  * Copyright 2018 - 2020 Jamiel Sharief.
@@ -12,9 +11,7 @@
  * @link         https://www.originphp.com
  * @license      https://opensource.org/licenses/mit-license.php MIT License
  */
-
 declare(strict_types=1);
-
 namespace Origin\Storage\Engine;
 
 use ZipArchive;
@@ -154,7 +151,7 @@ class ZipEngine extends BaseEngine
                     'name' => $file['name'],
                     'size' => $file['size'],
                     'timestamp' => $file['mtime'],
-                ]);
+                ], $file['name']);
             }
         }
 

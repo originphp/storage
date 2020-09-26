@@ -294,7 +294,7 @@ class FtpEngine extends BaseEngine
                         'name' => trim($this->rebase($location . '/' .  $file, $base . '/'), '/'),
                         'timestamp' => ftp_mdtm($this->connection, $location . '/' . $file),
                         'size' => $result[4],
-                    ]);
+                    ], $location . '/' .  $file);
                 }
             }
         }

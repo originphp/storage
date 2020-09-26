@@ -285,7 +285,7 @@ class S3Engine extends BaseEngine
                         'name' => $this->rebase($object['Key'], $name .'/'),
                         'timestamp' => strtotime((string) $object['LastModified']),
                         'size' => $object['Size'],
-                    ]);
+                    ], $object['Key']);
                 }
             }
         } catch (S3Exception $exception) {
