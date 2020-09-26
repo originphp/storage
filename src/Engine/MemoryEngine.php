@@ -37,9 +37,10 @@ class MemoryEngine extends BaseEngine
      */
     public function read(string $name): string
     {
-        list($path, $filename) = $this->pathInfo($name);
-        if (isset($this->data[$path][$filename])) {
-            return $this->data[$path][$filename]['_contents'];
+        $info = $this->pathinfo($name);
+
+        if (isset($this->data[$info['directory']][$info['name']])) {
+            return $this->data[$info['directory']][$info['name']]['_contents'];
         }
         throw new FileNotFoundException(sprintf('File %s does not exist', $name));
     }
@@ -53,32 +54,15 @@ class MemoryEngine extends BaseEngine
      */
     public function write(string $name, string $data): bool
     {
-        list($path, $filename) = $this->pathInfo($name);
+        $info = $this->pathinfo($name);
 
-        $this->data[$path][$filename] = new FileObject([
-            'name' => $name,
-            'size' => mb_strlen($data, '8bit'),
-            'timestamp' => time(),
-            '_contents' => $data
-        ]);
+        $info['timestamp'] = time();
+        $info['size'] = mb_strlen($data, '8bit');
+        $info['_contents'] = $data;
+    
+        $this->data[$info['directory']][$info['name']] = new FileObject($info);
 
         return true;
-    }
-
-    /**
-     * Parses the path info
-     *
-     * @param string $name
-     * @return array
-     */
-    private function pathInfo(string $name): array
-    {
-        $result = pathinfo($name);
-
-        return [
-            $result['dirname'] === '.' ?  '/' : $result['dirname'],
-            $result['basename']
-        ];
     }
 
     /**
@@ -94,9 +78,9 @@ class MemoryEngine extends BaseEngine
         }
 
         // Delete file
-        list($path, $filename) = $this->pathInfo($name);
-        if (isset($this->data[$path][$filename])) {
-            unset($this->data[$path][$filename]);
+        $info = $this->pathinfo($name);
+        if (isset($this->data[$info['directory']][$info['name']])) {
+            unset($this->data[$info['directory']][$info['name']]);
 
             return true;
         }
@@ -106,7 +90,7 @@ class MemoryEngine extends BaseEngine
         $result = false;
         foreach ($this->data as $path => $files) {
             foreach ($files as $index => $file) {
-                if (substr($file->name, 0, $length) === $name . '/') {
+                if (substr($file->path, 0, $length) === $name . '/') {
                     unset($this->data[$path][$index]);
                     $result = true;
                 }
@@ -124,9 +108,9 @@ class MemoryEngine extends BaseEngine
      */
     public function exists(string $name): bool
     {
-        list($path, $filename) = $this->pathInfo($name);
+        $info = $this->pathinfo($name);
 
-        return (isset($this->data[$name]) || isset($this->data[$path][$filename]));
+        return (isset($this->data[$name]) || isset($this->data[$info['directory']][$info['name']]));
     }
 
     /**
@@ -150,7 +134,7 @@ class MemoryEngine extends BaseEngine
 
         foreach ($data as $files) {
             foreach ($files as $file) {
-                if ($name === null || ($length && substr($file->name, 0, $length) === $name)) {
+                if ($name === null || ($length && substr($file->path, 0, $length) === $name)) {
                     unset($file['_contents']);
                     $out[] = $file;
                 }

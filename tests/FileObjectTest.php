@@ -21,12 +21,19 @@ class FileObjectTest extends \PHPUnit\Framework\TestCase
 {
     public function testAccess()
     {
-        $data = ['name' => 'folder/foo.txt','size' => 32000, 'timestamp' => strtotime('2019-10-31 14:40')];
+        $data = [
+            'name' => 'foo.txt',
+            'directory' => 'folder',
+            'extension' => 'txt',
+            'path' => 'folder/foo.txt',
+            'size' => 32000,
+            'timestamp' => strtotime('2019-10-31 14:40')
+        ];
         $object = new FileObject($data);
 
-        $this->assertEquals('folder/foo.txt', $object['name']);
+        $this->assertEquals('folder/foo.txt', $object['path']);
       
-        $this->assertEquals('folder/foo.txt', $object->name);
+        $this->assertEquals('folder/foo.txt', $object->path);
       
         $this->assertTrue(isset($object['name']));
         $this->assertTrue(isset($object->name));

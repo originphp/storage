@@ -281,11 +281,10 @@ class S3Engine extends BaseEngine
             
             foreach ($results as $result) {
                 foreach ($this->getListObjects($result) as $object) {
-                    $files[] = new FileObject([
-                        'name' => $this->rebase($object['Key'], '/'),
-                        'timestamp' => strtotime((string) $object['LastModified']),
-                        'size' => $object['Size'],
-                    ]);
+                    $info = $this->pathinfo($this->rebase($object['Key'], '/'));
+                    $info['timestamp'] = strtotime((string) $object['LastModified']);
+                    $info['size'] = $object['Size'];
+                    $files[] = new FileObject($info);
                 }
             }
         } catch (S3Exception $exception) {

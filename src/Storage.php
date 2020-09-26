@@ -93,65 +93,65 @@ class Storage
     /**
      * Reads an item from the Storage
      *
-     * @param string $name
+     * @param string $path
      * @param array $options You can pass an array of options with the folling keys :
      *   - config: default:default the name of the config to use
      * @return string
      */
-    public static function read(string $name, array $options = []): string
+    public static function read(string $path, array $options = []): string
     {
         $options += ['config' => self::$default];
         $engine = static::engine($options['config']);
 
-        return $engine->read($name);
+        return $engine->read($path);
     }
     /**
      * Writes an item from Storage
      *
-     * @param string $name
+     * @param string $path
      * @param mixed $value
      * @param array $options You can pass an array of options with the folling keys :
      *   - config: default:default the name of the config to use
      * @return bool
      */
-    public static function write(string $name, $value, array $options = []): bool
+    public static function write(string $path, $value, array $options = []): bool
     {
         $options += ['config' => self::$default];
         $engine = static::engine($options['config']);
 
-        return $engine->write($name, $value);
+        return $engine->write($path, $value);
     }
 
     /**
      * Checks if an item is in the Storage
      *
-     * @param string $name
+     * @param string $path
      * @param array $options You can pass an array of options with the folling keys :
      *   - config: default:default the name of the config to use
      * @return bool
      */
-    public static function exists(string $name, array $options = []): bool
+    public static function exists(string $path, array $options = []): bool
     {
         $options += ['config' => self::$default];
         $engine = static::engine($options['config']);
 
-        return $engine->exists($name);
+        return $engine->exists($path);
     }
 
     /**
      * Deletes a file OR directory
      *
-     * @param string $name
+     * @param string $path
      * @param array $options You can pass an array of options with the folling keys :
      *   - config: default:default the name of the config to use
      * @return boolean
      */
-    public static function delete(string $name, array $options = []): bool
+    public static function delete(string $path, array $options = []): bool
     {
         $options += ['config' => self::$default];
         $engine = static::engine($options['config']);
 
-        return $engine->delete($name);
+        return $engine->delete($path);
     }
 
     /**

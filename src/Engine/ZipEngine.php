@@ -66,9 +66,9 @@ class ZipEngine extends BaseEngine
      */
     public function write(string $name, string $data): bool
     {
-        list($path, $filename) = $this->pathInfo($name);
-        if ($path) {
-            $this->archive->addEmptyDir($path);
+        $info  = $this->pathinfo($name);
+        if ($info['directory']) {
+            $this->archive->addEmptyDir($info['directory']);
         }
 
         return $this->archive->addFromString($name, $data);
@@ -147,11 +147,10 @@ class ZipEngine extends BaseEngine
             }
 
             if ($name === null || ($length && substr($file['name'], 0, $length) === $name)) {
-                $out[] = new FileObject([
-                    'name' => $file['name'],
-                    'size' => $file['size'],
-                    'timestamp' => $file['mtime'],
-                ]);
+                $info = $this->pathinfo($file['name']);
+                $info['timestamp'] = $file['mtime'];
+                $info['size'] = $file['size'];
+                $out[] = new FileObject($info);
             }
         }
 
@@ -166,21 +165,5 @@ class ZipEngine extends BaseEngine
     public function close(): bool
     {
         return $this->archive->close();
-    }
-
-    /**
-     * Parses the path info
-     *
-     * @param string $name
-     * @return array
-     */
-    private function pathInfo(string $name): array
-    {
-        $result = pathinfo($name);
-
-        return [
-            $result['dirname'] === '.' ?  null : $result['dirname'],
-            $result['basename']
-        ];
     }
 }

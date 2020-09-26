@@ -85,6 +85,6 @@ class FileObject implements ArrayAccess
 
     public function __toString()
     {
-        return $this->data['name'];
+        return $this->data['path'];
     }
 }

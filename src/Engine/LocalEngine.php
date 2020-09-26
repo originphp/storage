@@ -163,12 +163,10 @@ class LocalEngine extends BaseEngine
                 if ($file->isDir()) {
                     continue;
                 }
-      
-                $files[] = new FileObject([
-                    'name' => $this->rebase($file->getPathname(), $root . '/'),
-                    'timestamp' => $file->getMTime(),
-                    'size' => $file->getSize(),
-                ]);
+                $info = $this->pathinfo($this->rebase($file->getPathname(), $root . '/'));
+                $info['timestamp'] = $file->getMTime();
+                $info['size'] = $file->getSize();
+                $files[] = new FileObject($info);
             }
 
             return $files;

@@ -67,6 +67,7 @@ class EngineTestCase extends \PHPUnit\Framework\TestCase
         $foo = $this->getFile('foo.txt', $files);
         $this->assertEquals('foo.txt', $foo->name);
         $this->assertEquals(1559996145, $foo->timestamp);
+        $this->assertEquals('txt', $foo->extension);
         $this->assertEquals(32, $foo->size);
 
         // Test Contents
@@ -129,7 +130,7 @@ class EngineTestCase extends \PHPUnit\Framework\TestCase
     protected function assertHasFileInList(string $filename, array $files)
     {
         foreach ($files as $file) {
-            if ($file['name'] === $filename) {
+            if ($file['path'] === $filename) {
                 $this->assertTrue(true);
 
                 return;
@@ -142,7 +143,7 @@ class EngineTestCase extends \PHPUnit\Framework\TestCase
     protected function getFile(string $filename, array $files)
     {
         foreach ($files as $file) {
-            if ($file['name'] == $filename) {
+            if ($file['path'] == $filename) {
                 if ($file['timestamp'] > strtotime('-1 minute')) {
                     $file['timestamp'] = 1559996145; // Standardize
                 }

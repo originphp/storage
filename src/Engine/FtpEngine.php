@@ -292,11 +292,10 @@ class FtpEngine extends BaseEngine
                         $files[] = $item;
                     }
                 } else {
-                    $files[] = new FileObject([
-                        'name' => trim($this->rebase($location . '/' .  $file, $root . '/'), '/'),
-                        'timestamp' => ftp_mdtm($this->connection, $location . '/' . $file),
-                        'size' => $result[4],
-                    ]);
+                    $info = $this->pathinfo(trim($this->rebase($location . '/' .  $file, $root . '/'), '/'));
+                    $info['timestamp'] = ftp_mdtm($this->connection, $location . '/' . $file);
+                    $info['size'] =$result[4];
+                    $files[] = new FileObject($info);
                 }
             }
         }

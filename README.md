@@ -82,7 +82,10 @@ Storage contents are listed recursively and it will provide you with an array of
 // Will look like this
 Origin\Storage\FileObject Object
 (
-    [name] => folder/bar.txt
+    [name] => bar.txt
+    [directory] => folder
+    [path] => folder/bar.txt
+    [extension] => txt
     [timestamp] => 1601121922
     [size] => 32
 )

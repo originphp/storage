@@ -92,4 +92,15 @@ abstract class BaseEngine
 
         return $file;
     }
+
+    protected function pathinfo(string $path) : array
+    {
+        $pathinfo = pathinfo($path);
+        return [
+            'name' => $pathinfo['basename'],
+            'directory' => $pathinfo['dirname'] !== '.' ? $pathinfo['dirname'] : null,
+            'path' => $path,
+            'extension' => $pathinfo['extension'] ?? null,
+        ];
+    }
 }

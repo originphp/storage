@@ -239,11 +239,10 @@ class SftpEngine extends BaseEngine
                 }
 
                 if ($info['type'] === 1) {
-                    $files[] = new FileObject([
-                        'name' => trim($this->rebase($location . '/' .  $file, $root . '/'), '/'),
-                        'timestamp' => $info['mtime'],
-                        'size' => $info['size'],
-                    ]);
+                    $pathInfo = $this->pathinfo(trim($this->rebase($location . '/' .  $file, $root . '/'), '/'));
+                    $pathInfo['timestamp'] = $info['mtime'];
+                    $pathInfo['size'] =  $info['size'];
+                    $files[] = new FileObject($pathInfo);
                 } elseif ($info['type'] === 2) {
                     $subDirectory = $file;
                     if ($directory) {
