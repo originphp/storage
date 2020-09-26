@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Changed `list` return data, name now represents the filename, and added path which includes the directory and filename. (Breaking Change)
+- Changed `list` return data, `name` now represents the `filename`, and added `path` which includes the directory and filename. Use `path` instead of `name`. (Breaking Change)
 
 ## [1.4.0] - 2020-09-26
 
