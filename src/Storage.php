@@ -109,12 +109,12 @@ class Storage
      * Writes an item from Storage
      *
      * @param string $path
-     * @param mixed $value
+     * @param string $value
      * @param array $options You can pass an array of options with the folling keys :
      *   - config: default:default the name of the config to use
      * @return bool
      */
-    public static function write(string $path, $value, array $options = []): bool
+    public static function write(string $path, string $value, array $options = []): bool
     {
         $options += ['config' => self::$default];
         $engine = static::engine($options['config']);
