@@ -32,7 +32,7 @@
         }
     },
     "require": {
-        "php": "^7.2.0",
+        "php": ">=7.2.0",
         "originphp/configurable": "^1.0",
         "originphp/defer": "^1.0"
     },
