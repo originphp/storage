@@ -32,15 +32,18 @@
         }
     },
     "require": {
-        "php": ">=7.2.0",
-        "originphp/configurable": "^1.0",
-        "originphp/defer": "^1.0"
+        "php": ">=7.3.0",
+        "originphp/configurable": "^2.0",
+        "originphp/defer": "^2.0",
+         "ext-zip": "*"
     },
     "require-dev": {
-        "phpunit/phpunit": "^8.0"
-    },
-    "suggest": {
+        "phpunit/phpunit": "^9.2",
         "phpseclib/phpseclib": "~2.0",
         "aws/aws-sdk-php": "^3.1"
+    },
+    "suggest": {
+        "phpseclib/phpseclib": "Install this to use the SFTP Engine",
+        "aws/aws-sdk-php": "Install this to use the S3 Engine"
     }
 }

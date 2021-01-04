@@ -1,8 +1,7 @@
 <?php
-
 /**
  * OriginPHP Framework
- * Copyright 2018 - 2020 Jamiel Sharief.
+ * Copyright 2018 - 2021 Jamiel Sharief.
  *
  * Licensed under The MIT License
  * The above copyright notice and this permission notice shall be included in all copies or substantial
@@ -12,17 +11,12 @@
  * @link        https://www.originphp.com
  * @license     https://opensource.org/licenses/mit-license.php MIT License
  */
-
 namespace Origin\Test\Storage\Engine;
 
 use phpseclib\Net\SFTP;
-
 use phpseclib\Crypt\RSA;
-
 use InvalidArgumentException;
-
 use Origin\Storage\Engine\SftpEngine;
-
 use Origin\Storage\Exception\StorageException;
 use Origin\Storage\Exception\FileNotFoundException;
 
@@ -67,6 +61,7 @@ class SftpEngineTest extends EngineTestCase
         if ($this->engine === null) {
             $this->engine = new SftpEngine([
                 'host' => $this->env('SFTP_HOST'),
+                'port' => $this->env('SFTP_PORT'),
                 'username' => $this->env('SFTP_USERNAME'),
                 'password' => $this->env('SFTP_PASSWORD'),
             ]);
@@ -81,7 +76,7 @@ class SftpEngineTest extends EngineTestCase
         $this->assertNotEmpty($config['host']);
         $this->assertNotEmpty($config['username']);
         $this->assertNotEmpty($config['password']);
-        $this->assertEquals(22, $config['port']);
+        $this->assertEquals(2222, $config['port']);
         $this->assertNotEmpty($config['root']);
         $this->assertEquals(10, $config['timeout']);
     }
@@ -91,6 +86,7 @@ class SftpEngineTest extends EngineTestCase
         $this->expectException(InvalidArgumentException::class);
         $engine = new SftpEngine([
             'host' => $this->env('SFTP_HOST'),
+            'port' => $this->env('SFTP_PORT'),
             'username' => $this->env('SFTP_USERNAME'),
             'password' => $this->env('SFTP_PASSWORD'),
             'root' => '/some-directory/that-does-not-exist',
@@ -102,6 +98,7 @@ class SftpEngineTest extends EngineTestCase
         $this->expectException(FileNotFoundException::class);
         $engine = new SftpEngine([
             'host' => $this->env('SFTP_HOST'),
+            'port' => $this->env('SFTP_PORT'),
             'username' => 'username',
             'password' => 'password',
             'privateKey' => '/somewhere/privateKey',
@@ -115,6 +112,7 @@ class SftpEngineTest extends EngineTestCase
 
         $engine = new MockSftpEngine([
             'host' => $this->env('SFTP_HOST'),
+            'port' => $this->env('SFTP_PORT'),
             'username' => $this->env('SFTP_USERNAME'),
             'password' => $this->env('SFTP_PASSWORD'),
             'privateKey' => $pair['privatekey'],
@@ -132,6 +130,7 @@ class SftpEngineTest extends EngineTestCase
         file_put_contents($tmp, $pair['privatekey']);
         $engine = new MockSftpEngine([
             'host' => $this->env('SFTP_HOST'),
+            'port' => $this->env('SFTP_PORT'),
             'username' => $this->env('SFTP_USERNAME'),
             'password' => $this->env('SFTP_PASSWORD'),
             'privateKey' => $tmp,
@@ -152,6 +151,7 @@ class SftpEngineTest extends EngineTestCase
         $this->expectException(StorageException::class);
         $engine = new SftpEngine([
             'host' => $this->env('SFTP_HOST'),
+            'port' => $this->env('SFTP_PORT'),
             'username' => 'admin',
             'password' => 1234,
         ]);
@@ -165,6 +165,7 @@ class SftpEngineTest extends EngineTestCase
         $pair = $rsa->createKey();
         $engine = new SftpEngine([
             'host' => $this->env('SFTP_HOST'),
+            'port' => $this->env('SFTP_PORT'),
             'username' => $this->env('SFTP_USERNAME'),
             'password' => $this->env('SFTP_PASSWORD'),
             'privateKey' => $pair['privatekey'],
