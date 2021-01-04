@@ -36,11 +36,11 @@ jobs:
         run: |
           composer require php-coveralls/php-coveralls:^2.4 --dev --no-update
           composer update --no-progress --prefer-dist
-      - name: Start Services (SSHD,FTP & Minio)
+      - name: Setup Services (SSHD,FTP & Minio)
         run: |
           docker run -d -p 2222:22 sickp/alpine-sshd
           docker run -d -p 21:21 -e USERS="admin|secret" delfer/alpine-ftp-server
-          docker run -p 9000:9000 minio/minio server /data 
+          docker run -d -p 9000:9000 minio/minio server /data 
       - name: Run PHPUnit
         run: "php vendor/bin/phpunit --coverage-clover=clover.xml"
       - name: Coveralls
