@@ -1,8 +1,7 @@
 <?php
 /**
- * For Travis CI
+ * used by CI during testing
  */
-
 require 'vendor/autoload.php';
 
 $bucket = getenv('S3_BUCKET') ? getenv('S3_BUCKET') : 'test-bucket';
