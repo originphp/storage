@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Added NotFoundException for MemoryEngine
+- Added S3Engine::errors for debugging AWS or S3Exceptions
 
 ## [2.0.2]  - 2020-10-24
 
