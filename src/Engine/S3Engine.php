@@ -41,6 +41,8 @@ class S3Engine extends BaseEngine
      */
     private $bucket;
 
+    private $errors = [];
+
     protected $defaultConfig = [
         'credentials' => [
             'key' => null,
@@ -103,6 +105,7 @@ class S3Engine extends BaseEngine
 
             return true;
         } catch (AwsException $exception) {
+            $this->errors[] = $exception->getMessage();
         }
 
         return false;
@@ -124,6 +127,7 @@ class S3Engine extends BaseEngine
 
             return true;
         } catch (AwsException $exception) {
+            $this->errors[] = $exception->getMessage();
         }
 
         return false;
@@ -145,6 +149,7 @@ class S3Engine extends BaseEngine
 
             return (string) $response['Body'];
         } catch (S3Exception $exception) {
+            $this->errors[] = $exception->getMessage();
         }
     
         throw new FileNotFoundException(sprintf('%s does not exist', $name));
@@ -170,6 +175,7 @@ class S3Engine extends BaseEngine
 
             return true;
         } catch (S3Exception $exception) {
+            $this->errors[] = $exception->getMessage();
         }
 
         return false;
@@ -210,6 +216,7 @@ class S3Engine extends BaseEngine
         try {
             $this->s3->deleteMatchingObjects($this->bucket, trim($name, '/') . '/');
         } catch (DeleteMultipleObjectsException $exception) {
+            $this->errors[] = $exception->getMessage();
             return false;
         }
 
@@ -230,6 +237,7 @@ class S3Engine extends BaseEngine
 
             return empty($result['DeleteMarker']);
         } catch (S3Exception $exception) {
+            $this->errors[] = $exception->getMessage();
         }
 
         return false;
@@ -284,6 +292,7 @@ class S3Engine extends BaseEngine
                 }
             }
         } catch (S3Exception $exception) {
+            $this->errors[] = $exception->getMessage();
         }
 
         return $files;
@@ -322,8 +331,20 @@ class S3Engine extends BaseEngine
 
             return ! empty($result['Contents'] || ! empty($result['CommonPrefixes']));
         } catch (S3Exception $exception) {
+            $this->errors[] = $exception->getMessage();
         }
 
         return false;
+    }
+
+    /**
+     * Gets the internal errors thrown by AWS, this can be
+     * handy to debug problems.
+     *
+     * @return array
+     */
+    public function errors() : array
+    {
+        return $this->errors;
     }
 }

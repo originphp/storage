@@ -134,4 +134,14 @@ class S3EngineTest extends EngineTestCase
         
         $this->assertTrue($this->engine()->deleteBucket($this->bucket));
     }
+
+    public function testErrors()
+    {
+        $this->assertEmpty($this->engine()->errors());
+        $this->assertTrue($this->engine()->createBucket('foo'));
+
+        $this->assertFalse($this->engine()->createBucket('foo'));
+        $this->assertNotEmpty($this->engine()->errors());
+        $this->assertTrue($this->engine()->deleteBucket('foo'));
+    }
 }
