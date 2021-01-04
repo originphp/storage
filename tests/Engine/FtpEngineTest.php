@@ -34,6 +34,7 @@ class FtpEngineTest extends EngineTestCase
         if ($this->engine === null) {
             $this->engine = new FtpEngine([
                 'host' => $this->env('FTP_HOST'),
+                'port' => (int) $this->env('FTP_PORT'),
                 'username' => $this->env('FTP_USERNAME'),
                 'password' => $this->env('FTP_PASSWORD'),
             ]);
@@ -47,6 +48,7 @@ class FtpEngineTest extends EngineTestCase
         $this->expectException(InvalidArgumentException::class);
         $engine = new FtpEngine([
             'host' => $this->env('FTP_HOST'),
+            'port' => (int) $this->env('FTP_PORT'),
             'username' => $this->env('FTP_USERNAME'),
             'password' => $this->env('FTP_PASSWORD'),
             'root' => '/some-directory/that-does-not-exist',
@@ -63,7 +65,7 @@ class FtpEngineTest extends EngineTestCase
         $this->assertNotEmpty($config['host']);
         $this->assertNotEmpty($config['username']);
         $this->assertNotEmpty($config['password']);
-        $this->assertEquals(21, $config['port']);
+        $this->assertEquals(2121, $config['port']);
         $this->assertNotEmpty($config['root']);
         $this->assertEquals(10, $config['timeout']);
         $this->assertFalse($config['ssl']);
@@ -97,6 +99,7 @@ class FtpEngineTest extends EngineTestCase
         $this->expectException(StorageException::class);
         $engine = new FtpEngine([
             'host' => $this->env('FTP_HOST'),
+            'port' => (int) $this->env('FTP_PORT'),
             'username' => 'admin',
             'password' => '1234',
         ]);

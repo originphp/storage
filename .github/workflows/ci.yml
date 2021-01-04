@@ -40,7 +40,7 @@ jobs:
       - name: Setup Services (SSHD,FTP & Minio)
         run: |
           docker run -d -p 9000:9000 minio/minio server /data
-          docker run -d -p 21:21 -e USERS="admin|secret" delfer/alpine-ftp-server
+          docker run -d -p 2121:21 -p 21000-21010:21000-21010 -e USERS="admin|secret" delfer/alpine-ftp-server
           docker run -d -p 2222:22 sickp/alpine-sshd
       - name: Run PHPUnit 
         run: |
