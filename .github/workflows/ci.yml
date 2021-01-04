@@ -18,7 +18,7 @@ jobs:
     name: "PHP ${{ matrix.php-version }}"
     runs-on: "ubuntu-latest"
     strategy:
-      max-parallel: 3
+      max-parallel: 1
       matrix:
         php-version:
           - "7.3"
