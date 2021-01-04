@@ -231,8 +231,14 @@ class FtpEngine extends BaseEngine
      */
     protected function mkdir(string $path): void
     {
-        ftp_chdir($this->connection, $this->config('root'));
+        $root = $this->config('root');
+        ftp_chdir($this->connection, $root);
 
+        // Work when not in jail
+        if ($root !== '/') {
+            $path = substr($path, strlen($root)+1);
+        }
+        
         $parts = array_filter(explode('/', $path));
         foreach ($parts as $part) {
             if (! @ftp_chdir($this->connection, $part)) {
@@ -274,7 +280,7 @@ class FtpEngine extends BaseEngine
 
         $files = [];
 
-        $contents = ftp_rawlist($this->connection, $directory ?: '/', true);
+        $contents = ftp_rawlist($this->connection, $location ?: '/', true);
 
         if ($contents) {
             foreach ($contents as $item) {
