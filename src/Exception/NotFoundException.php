@@ -14,6 +14,8 @@
 declare(strict_types=1);
 namespace Origin\Storage\Exception;
 
-class FileNotFoundException extends NotFoundException
+use Exception;
+
+class NotFoundException extends Exception
 {
 }

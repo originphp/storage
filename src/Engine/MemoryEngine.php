@@ -15,7 +15,7 @@ declare(strict_types=1);
 namespace Origin\Storage\Engine;
 
 use Origin\Storage\FileObject;
-use Origin\Storage\Exception\FileNotFoundException;
+use Origin\Storage\Exception\NotFoundException;
 
 class MemoryEngine extends BaseEngine
 {
@@ -39,7 +39,7 @@ class MemoryEngine extends BaseEngine
         if (isset($this->data[$info['directory']][$info['name']])) {
             return $this->data[$info['directory']][$info['name']]['_contents'];
         }
-        throw new FileNotFoundException(sprintf('File %s does not exist', $name));
+        throw new NotFoundException(sprintf('File %s does not exist', $name));
     }
 
     /**
@@ -71,7 +71,7 @@ class MemoryEngine extends BaseEngine
     public function delete(string $name): bool
     {
         if ($name && ! $this->exists($name)) {
-            throw new FileNotFoundException(sprintf('%s does not exist', $name));
+            throw new NotFoundException(sprintf('%s does not exist', $name));
         }
 
         // Delete file
@@ -119,7 +119,7 @@ class MemoryEngine extends BaseEngine
     public function list(string $name = null): array
     {
         if ($name && ! $this->exists($name)) {
-            throw new FileNotFoundException(sprintf('%s does not exist', $name));
+            throw new NotFoundException(sprintf('%s does not exist', $name));
         }
 
         $data = $this->data;

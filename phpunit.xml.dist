@@ -11,34 +11,32 @@
     </testsuite>
   </testsuites>
   <php>
-      <const name="PHPUNIT" value="true"/>
-       <env name="ORIGIN_ENV" value="test"/>
+    <const name="PHPUNIT" value="true"/>
+    <env name="ORIGIN_ENV" value="test"/>
 
-        <!--
-          docker run -d -p 2222:22 sickp/alpine-sshd 
-        -->
-        <env name="SFTP_HOST" value="localhost"/>
-        <env name="SFTP_PORT" value="2222"/>
-        <env name="SFTP_USERNAME" value="root"/>
-        <env name="SFTP_PASSWORD" value="root"/>
-                
-        <!--
-        docker run -d \
-                    -p 21:21 \
-                    -p 21000-21010:21000-21010 \
-                    -e USERS="admin|secret" \
-                    delfer/alpine-ftp-server
-        --> 
+    <!--
+      docker run -d -p 2222:22 sickp/alpine-sshd 
+    -->
+    <env name="SFTP_HOST" value="localhost"/>
+    <env name="SFTP_PORT" value="2222"/>
+    <env name="SFTP_USERNAME" value="root"/>
+    <env name="SFTP_PASSWORD" value="root"/>
 
-        <env name="FTP_HOST" value="localhost"/>
-        <env name="FTP_USERNAME" value="admin"/>
-        <env name="FTP_PASSWORD" value="secret"/>
+    <!--
+      docker run -d -p 21:21 -p 21000-21010:21000-21010 -e USERS="admin|secret"  delfer/alpine-ftp-server
+    -->
 
-        <!-- docker run -p 9000:9000 minio/minio server /data -->
-        <env name="S3_ENDPOINT" value="http://127.0.0.1:9000"/>
-        <env name="S3_KEY" value="minioadmin"/>
-        <env name="S3_SECRET" value="minioadmin"/>
-        <env name="S3_BUCKET" value="test-bucket"/>
+    <env name="FTP_HOST" value="localhost"/>
+    <env name="FTP_USERNAME" value="admin"/>
+    <env name="FTP_PASSWORD" value="secret"/>
+
+    <!-- 
+      docker run -d -p 9000:9000 minio/minio server /data 
+    -->
+    <env name="S3_ENDPOINT" value="http://127.0.0.1:9000"/>
+    <env name="S3_KEY" value="minioadmin"/>
+    <env name="S3_SECRET" value="minioadmin"/>
+    <env name="S3_BUCKET" value="test-bucket"/>
   </php>
 </phpunit>
 

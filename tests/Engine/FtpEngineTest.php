@@ -16,6 +16,7 @@ namespace Origin\Test\Storage\Engine;
 use Exception;
 use InvalidArgumentException;
 use Origin\Storage\Engine\FtpEngine;
+use Origin\Storage\Exception\StorageException;
 
 class FtpEngineTest extends EngineTestCase
 {
@@ -82,7 +83,7 @@ class FtpEngineTest extends EngineTestCase
      */
     public function testErrorConnectingTo()
     {
-        $this->expectException(Exception::class);
+        $this->expectException(StorageException::class);
         $engine = new FtpEngine([
             'host' => '192.168.1.1',
             'username' => 'username',
@@ -93,7 +94,7 @@ class FtpEngineTest extends EngineTestCase
 
     public function testInvalidUsernamePassword()
     {
-        $this->expectException(Exception::class);
+        $this->expectException(StorageException::class);
         $engine = new FtpEngine([
             'host' => $this->env('FTP_HOST'),
             'username' => 'admin',

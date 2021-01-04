@@ -14,10 +14,11 @@
 declare(strict_types=1);
 namespace Origin\Storage\Engine;
 
-use Exception;
+use Origin\Storage\Exception\StorageException;
 use InvalidArgumentException;
 use Origin\Storage\FileObject;
 use Origin\Storage\Exception\FileNotFoundException;
+use RuntimeException;
 
 class FtpEngine extends BaseEngine
 {
@@ -68,12 +69,12 @@ class FtpEngine extends BaseEngine
         }
 
         if (! $this->connection) {
-            throw new Exception(sprintf('Error connecting to %s.', $this->config('host') . ':' . $this->config('port')));
+            throw new StorageException(sprintf('Error connecting to %s.', $this->config('host') . ':' . $this->config('port')));
         }
 
         if (! @ftp_login($this->connection, $username, $password)) {
             $this->disconnect();
-            throw new Exception('Invalid username or password.');
+            throw new StorageException('Invalid username or password.');
         }
         ftp_pasv($this->connection, $passive);
     }
@@ -121,7 +122,7 @@ class FtpEngine extends BaseEngine
 
         fwrite($stream, $data);
         rewind($stream);
-
+       
         return @ftp_fput($this->connection, $filename, $stream, FTP_BINARY);
 
         /*
@@ -192,14 +193,14 @@ class FtpEngine extends BaseEngine
      */
     public function list(string $name = null): array
     {
+        // check directory exists
         $directory = $this->addPathPrefix($name);
-
         if (! $this->isDir($directory)) {
             throw new FileNotFoundException('directory does not exist');
         }
 
+        // list files
         ftp_chdir($this->connection, $this->config('root'));
-
         return $this->scandir($name, $this->addPathPrefix($name));
     }
 
@@ -228,16 +229,35 @@ class FtpEngine extends BaseEngine
      */
     protected function mkdir(string $path): void
     {
-        ftp_chdir($this->connection, $this->config('root'));
+        $root = $this->config('root');
+        ftp_chdir($this->connection, $root);
 
-        $parts = array_filter(explode('/', $path));
-        foreach ($parts as $part) {
-            if (! @ftp_chdir($this->connection, $part)) {
-                ftp_mkdir($this->connection, $part);
-                ftp_chmod($this->connection, 0744, $part);
-                ftp_chdir($this->connection, $part);
-            }
+
+        // Work when not in jail
+        if ($root !== '/') {
+            $path = substr($path, strlen($root)+1);
         }
+        
+        $parts = array_filter(explode('/', $path));
+       
+
+        $location = $root;
+
+        foreach ($parts as $part) {
+            $location = $location . '/' . $part;
+            if (@ftp_chdir($this->connection, $location)) {
+                continue;
+            }
+            if (!@ftp_mkdir($this->connection, $location)) {
+                throw new RuntimeException('Error creating directory' .  $location);
+            }
+            if (!@ftp_chmod($this->connection, 0744, $location)) {
+                throw new RuntimeException('Error setting mode');
+            }
+
+            ftp_chdir($this->connection, $location);
+        }
+
         ftp_chdir($this->connection, $this->config('root'));
     }
 
@@ -268,10 +288,9 @@ class FtpEngine extends BaseEngine
     {
         $location = $this->addPathPrefix($directory);
         $root = $this->config('root');
-
         $files = [];
 
-        $contents = ftp_rawlist($this->connection, $directory ?: '/', true);
+        $contents = ftp_rawlist($this->connection, $location ?: '/', true);
 
         if ($contents) {
             foreach ($contents as $item) {

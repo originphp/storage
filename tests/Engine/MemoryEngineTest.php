@@ -14,7 +14,7 @@
 namespace Origin\Test\Storage\Engine;
 
 use Origin\Storage\Engine\MemoryEngine;
-use Origin\Storage\Exception\FileNotFoundException;
+use Origin\Storage\Exception\NotFoundException;
 
 class MemoryEngineTest extends \PHPUnit\Framework\TestCase
 {
@@ -83,19 +83,19 @@ class MemoryEngineTest extends \PHPUnit\Framework\TestCase
 
     public function testReadException()
     {
-        $this->expectException(FileNotFoundException::class);
+        $this->expectException(NotFoundException::class);
         (new MemoryEngine())->read('foo');
     }
 
     public function testDeleteException()
     {
-        $this->expectException(FileNotFoundException::class);
+        $this->expectException(NotFoundException::class);
         (new MemoryEngine())->delete('foo');
     }
 
     public function testListException()
     {
-        $this->expectException(FileNotFoundException::class);
+        $this->expectException(NotFoundException::class);
         (new MemoryEngine())->list('foo');
     }
 }

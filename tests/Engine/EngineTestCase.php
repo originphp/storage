@@ -16,6 +16,9 @@ namespace Origin\Test\Storage\Engine;
 use Origin\Storage\FileObject;
 use Origin\Storage\Exception\FileNotFoundException;
 
+/**
+ * @method \Origin\Engine\BaseEngine engine()
+ */
 class EngineTestCase extends \PHPUnit\Framework\TestCase
 {
     public function testWrite()
@@ -63,6 +66,9 @@ class EngineTestCase extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->engine()->exists('foo.txt'));
         // Test Format
         $foo = $this->getFile('foo.txt', $files);
+    
+        $this->assertInstanceOf(FileObject::class, $foo);
+        
         $this->assertEquals('foo.txt', $foo->name);
         $this->assertEquals(1559996145, $foo->timestamp);
         $this->assertEquals('txt', $foo->extension);
