@@ -210,8 +210,6 @@ class S3Engine extends BaseEngine
         try {
             $this->s3->deleteMatchingObjects($this->bucket, trim($name, '/') . '/');
         } catch (DeleteMultipleObjectsException $exception) {
-            $this->errors[] = $exception->getMessage();
-
             return false;
         }
 
