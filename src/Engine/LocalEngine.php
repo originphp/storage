@@ -20,6 +20,7 @@ use RecursiveIteratorIterator;
 use RecursiveDirectoryIterator;
 use Origin\Storage\Exception\StorageException;
 use Origin\Storage\Exception\FileNotFoundException;
+use function Origin\Defer\defer;
 
 class LocalEngine extends BaseEngine
 {

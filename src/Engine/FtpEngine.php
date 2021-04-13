@@ -19,6 +19,7 @@ use InvalidArgumentException;
 use Origin\Storage\FileObject;
 use Origin\Storage\Exception\FileNotFoundException;
 use RuntimeException;
+use function Origin\Defer\defer;
 
 class FtpEngine extends BaseEngine
 {

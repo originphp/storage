@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.1.0] - 2021-04-13
+
+### Changed
+
+- Adjusted to use Defer 3.x
+
 ## [3.0.0] - 2021-01-04
 
 ### Fixed
@@ -24,7 +30,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added NotFoundException for MemoryEngine
 - Added S3Engine::errors for debugging AWS or S3Exceptions
 
-## [2.0.2]  - 2020-10-24
+## [2.0.2] - 2020-10-24
 
 ### Fixed
 
@@ -40,7 +46,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Added FileObject::__toString which returns the path e.g. /folder/example.png
+- Added FileObject::\_\_toString which returns the path e.g. /folder/example.png
 
 ## [1.3.1] - 2020-09-03
 
